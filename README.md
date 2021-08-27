@@ -12,8 +12,8 @@ This repository contains basic programs written in languages that I have experie
 <details>
 <summary>C</summary>
 <ul>
-<li><a href="C/Program-00">Program-00</a></li>
-<li><a href="C/Program-01">Program-01</a></li>
+<li><a href="C/Program-00">Program-00</a> - FizzBuzz question inspired by the article <a href="https://blog.codinghorror.com/why-cant-programmers-program/">Why Can't Programmers.. Program?</a></li>
+<li><a href="C/Program-01">Program-01</a> - Detect <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a> of computer</li>
 </ul>
 </details>
 
