@@ -27,7 +27,7 @@ void free_linkedlist(node *head)
     }
 }
 
-void print_linkedlist(node *head)
+void traverse(node *head)
 {
     for (node *n = head; NULL != n; n = n->next)
     {
@@ -118,6 +118,29 @@ node *remove_at_end(node *head)
     free(temp);
 
     new_end->next = NULL;
+
+    return head;
+}
+
+node *sort(node *head)
+{
+    if (NULL == head)
+    {
+        return NULL;
+    }
+
+    for (node *i = head; NULL != i; i = i->next)
+    {
+        for (node *j = head; NULL != j; j = j->next)
+        {
+            if (i->data < j->data)
+            {
+                int temp = i->data;
+                i->data = j->data;
+                j->data = temp;
+            }
+        }
+    }
 
     return head;
 }

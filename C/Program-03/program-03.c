@@ -10,7 +10,7 @@ int main(void)
 {
     node *head = NULL;
 
-    print_linkedlist(head);
+    traverse(head);
 
     for (int i = 0; i < 10; i++)
     {
@@ -24,15 +24,17 @@ int main(void)
         }
     }
 
-    print_linkedlist(head);
+    traverse(head);
 
     head = remove_at_beginning(head);
 
-    print_linkedlist(head);
+    traverse(head);
 
     head = remove_at_end(head);
 
-    print_linkedlist(head);
+    head = sort(head);
+
+    traverse(head);
 
     free_linkedlist(head);
 }

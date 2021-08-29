@@ -12,7 +12,8 @@ node *insert_at_beginning(node *head, int data);
 node *insert_at_end(node *head, int data);
 node *remove_at_beginning(node *head);
 node *remove_at_end(node *head);
+node *sort(node *head);
 void free_linkedlist(node *head);
-void print_linkedlist(node *head);
+void traverse(node *head);
 
 #endif // LINKEDLIST_H
