@@ -13,6 +13,7 @@ node *insert_at_end(node *head, int data);
 node *remove_at_beginning(node *head);
 node *remove_at_end(node *head);
 node *sort(node *head);
+node *reverse(node *head);
 void free_linkedlist(node *head);
 void traverse(node *head);
 

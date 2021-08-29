@@ -36,5 +36,9 @@ int main(void)
 
     traverse(head);
 
+    head = reverse(head);
+
+    traverse(head);
+
     free_linkedlist(head);
 }

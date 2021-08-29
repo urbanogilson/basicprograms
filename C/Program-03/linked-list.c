@@ -144,3 +144,25 @@ node *sort(node *head)
 
     return head;
 }
+
+node *reverse(node *head)
+{
+    if (NULL == head)
+    {
+        return NULL;
+    }
+
+    node *previous = NULL, *current = head, *next = NULL;
+
+    while (NULL != current)
+    {
+        next = current->next;
+        current->next = previous;
+        previous = current;
+        current = next;
+    }
+
+    head = previous;
+
+    return head;
+}
