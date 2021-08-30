@@ -37,38 +37,38 @@ void traverse(node *head)
     printf("NULL\n");
 }
 
-node *insert_at_beginning(node *head, int data)
+node *insert_at_beginning(node **head, int data)
 {
     node *new_node = create_node(data);
 
     if (NULL == new_node)
     {
-        return head;
+        return *head;
     }
 
-    new_node->next = head;
+    new_node->next = *head;
 
-    head = new_node;
+    *head = new_node;
 
-    return head;
+    return *head;
 }
 
-node *insert_at_end(node *head, int data)
+node *insert_at_end(node **head, int data)
 {
     node *new_node = create_node(data);
 
     if (NULL == new_node)
     {
-        return head;
+        return *head;
     }
 
-    if (head == NULL)
+    if (*head == NULL)
     {
-        head = new_node;
-        return head;
+        *head = new_node;
+        return *head;
     }
 
-    node *temp = head;
+    node *temp = *head;
 
     while (NULL != temp->next)
     {
@@ -77,31 +77,31 @@ node *insert_at_end(node *head, int data)
 
     temp->next = new_node;
 
-    return head;
+    return *head;
 }
 
-node *remove_at_beginning(node *head)
+node *remove_at_beginning(node **head)
 {
-    if (head == NULL)
+    if (*head == NULL)
     {
         return NULL;
     }
 
-    node *temp = head;
-    head = temp->next;
+    node *temp = *head;
+    *head = temp->next;
     free(temp);
 
-    return head;
+    return *head;
 }
 
-node *remove_at_end(node *head)
+node *remove_at_end(node **head)
 {
-    if (head == NULL)
+    if (*head == NULL)
     {
         return NULL;
     }
 
-    node *temp = head, *new_end;
+    node *temp = *head, *new_end;
 
     if (NULL == temp->next)
     {
@@ -119,19 +119,19 @@ node *remove_at_end(node *head)
 
     new_end->next = NULL;
 
-    return head;
+    return *head;
 }
 
-node *sort(node *head)
+node *sort(node **head)
 {
-    if (NULL == head)
+    if (NULL == *head)
     {
         return NULL;
     }
 
-    for (node *i = head; NULL != i; i = i->next)
+    for (node *i = *head; NULL != i; i = i->next)
     {
-        for (node *j = head; NULL != j; j = j->next)
+        for (node *j = *head; NULL != j; j = j->next)
         {
             if (i->data < j->data)
             {
@@ -142,17 +142,17 @@ node *sort(node *head)
         }
     }
 
-    return head;
+    return *head;
 }
 
-node *reverse(node *head)
+node *reverse(node **head)
 {
-    if (NULL == head)
+    if (NULL == *head)
     {
         return NULL;
     }
 
-    node *previous = NULL, *current = head, *next = NULL;
+    node *previous = NULL, *current = *head, *next = NULL;
 
     while (NULL != current)
     {
@@ -162,7 +162,31 @@ node *reverse(node *head)
         current = next;
     }
 
-    head = previous;
+    *head = previous;
 
-    return head;
+    return *head;
+}
+
+int get(node *head, int index)
+{
+    if (NULL == head || index < 0)
+    {
+        return -1;
+    }
+
+    node *temp = head;
+    int i = 0;
+
+    while (NULL != temp)
+    {
+        if (i == index)
+        {
+            return temp->data;
+        }
+
+        i++;
+        temp = temp->next;
+    }
+
+    return -1;
 }

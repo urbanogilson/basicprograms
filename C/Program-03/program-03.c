@@ -16,29 +16,31 @@ int main(void)
     {
         if (i % 2 == 0)
         {
-            head = insert_at_end(head, i);
+            insert_at_end(&head, i);
         }
         else
         {
-            head = insert_at_beginning(head, i);
+            insert_at_beginning(&head, i);
         }
     }
 
     traverse(head);
 
-    head = remove_at_beginning(head);
+    remove_at_beginning(&head);
 
     traverse(head);
 
-    head = remove_at_end(head);
+    remove_at_end(&head);
 
-    head = sort(head);
+    sort(&head);
+
+    traverse(head);
+
+    reverse(&head);
 
     traverse(head);
 
-    head = reverse(head);
-
-    traverse(head);
+    printf("Value in the second node: %d\n", get(head, 1));
 
     free_linkedlist(head);
 }
