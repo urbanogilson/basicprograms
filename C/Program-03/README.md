@@ -17,9 +17,9 @@ Write a program that implements [Linked List](https://en.wikipedia.org/wiki/Link
 - [x] Traverse
 - [ ] Has cycle
 - [ ] Is palindrome
-- [ ] Get the value of the index-th node
-- [ ] Add a node of value val before the index-th nod
-- [ ] Delete the index-th node
+- [x] Get the value of the index-th node
+- [ ] Add a node of value val before the index-th node
+- [x] Delete the index-th node
 
 ## References
 1 -  [Linked List](https://en.wikipedia.org/wiki/Linked_list)

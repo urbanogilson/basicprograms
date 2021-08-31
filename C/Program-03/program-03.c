@@ -44,7 +44,11 @@ int main(void)
 
     list_traverse(head);
 
-    printf("Value in the second node: %d\n", list_geti(head, 1));
+    printf("Value in the second node: %d\n", list_get_at_index(head, 1));
+
+    list_remove_at_index(&head, 1);
+
+    list_traverse(head);
 
     list_free(head);
 }

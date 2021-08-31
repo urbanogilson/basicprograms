@@ -167,7 +167,7 @@ node *list_reverse(node **head)
     return *head;
 }
 
-int list_geti(node *head, int index)
+int list_get_at_index(node *head, int index)
 {
     if (NULL == head || index < 0)
     {
@@ -189,4 +189,37 @@ int list_geti(node *head, int index)
     }
 
     return -1;
+}
+
+node *list_remove_at_index(node **head, int index)
+{
+    if (NULL == *head || index < 0)
+    {
+        return *head;
+    }
+
+    if (index == 0)
+    {
+        return list_remove_at_beginning(head);
+    }
+
+    node *current = (*head)->next, *previous = *head;
+    int i = 1;
+
+    while (NULL != current)
+    {
+        if (i == index)
+        {
+            printf("Current -> %d\n", current->data);
+            previous->next = current->next;
+            free(current);
+            return *head;
+        }
+
+        i++;
+        previous = current;
+        current = current->next;
+    }
+
+    return *head;
 }

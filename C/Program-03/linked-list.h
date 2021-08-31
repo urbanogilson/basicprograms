@@ -21,7 +21,7 @@ node *list_reverse(node **head);
 node *list_reverse_recursive(node **head);
 bool list_has_cycle(node *head);
 bool list_is_palindrome(node *head);
-int list_geti(node *head, int index);
+int list_get_at_index(node *head, int index);
 node *list_insert_at_index(node **head, int index, int data);
 node *list_remove_at_index(node **head, int index);
 
