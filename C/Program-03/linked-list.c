@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-node *create_node(int data)
+node *list_create_node(int data)
 {
     node *new_node = (node *)malloc(sizeof(node));
 
@@ -17,7 +17,7 @@ node *create_node(int data)
     return new_node;
 }
 
-void free_linkedlist(node *head)
+void list_free(node *head)
 {
     while (NULL != head)
     {
@@ -27,7 +27,7 @@ void free_linkedlist(node *head)
     }
 }
 
-void traverse(node *head)
+void list_traverse(node *head)
 {
     for (node *n = head; NULL != n; n = n->next)
     {
@@ -37,9 +37,9 @@ void traverse(node *head)
     printf("NULL\n");
 }
 
-node *insert_at_beginning(node **head, int data)
+node *list_insert_at_beginning(node **head, int data)
 {
-    node *new_node = create_node(data);
+    node *new_node = list_create_node(data);
 
     if (NULL == new_node)
     {
@@ -47,15 +47,14 @@ node *insert_at_beginning(node **head, int data)
     }
 
     new_node->next = *head;
-
     *head = new_node;
 
     return *head;
 }
 
-node *insert_at_end(node **head, int data)
+node *list_insert_at_end(node **head, int data)
 {
-    node *new_node = create_node(data);
+    node *new_node = list_create_node(data);
 
     if (NULL == new_node)
     {
@@ -80,7 +79,7 @@ node *insert_at_end(node **head, int data)
     return *head;
 }
 
-node *remove_at_beginning(node **head)
+node *list_remove_at_beginning(node **head)
 {
     if (*head == NULL)
     {
@@ -94,19 +93,20 @@ node *remove_at_beginning(node **head)
     return *head;
 }
 
-node *remove_at_end(node **head)
+node *list_remove_at_end(node **head)
 {
     if (*head == NULL)
     {
         return NULL;
     }
 
-    node *temp = *head, *new_end;
+    node *temp = *head, *new_end = temp;
 
     if (NULL == temp->next)
     {
         free(temp);
-        return NULL;
+        *head = NULL;
+        return *head;
     }
 
     while (NULL != temp->next)
@@ -122,7 +122,7 @@ node *remove_at_end(node **head)
     return *head;
 }
 
-node *sort(node **head)
+node *list_sort(node **head)
 {
     if (NULL == *head)
     {
@@ -145,7 +145,7 @@ node *sort(node **head)
     return *head;
 }
 
-node *reverse(node **head)
+node *list_reverse(node **head)
 {
     if (NULL == *head)
     {
@@ -167,7 +167,7 @@ node *reverse(node **head)
     return *head;
 }
 
-int get(node *head, int index)
+int list_geti(node *head, int index)
 {
     if (NULL == head || index < 0)
     {

@@ -10,37 +10,41 @@ int main(void)
 {
     node *head = NULL;
 
-    traverse(head);
+    list_traverse(head);
 
     for (int i = 0; i < 10; i++)
     {
         if (i % 2 == 0)
         {
-            insert_at_end(&head, i);
+            list_insert_at_end(&head, i);
         }
         else
         {
-            insert_at_beginning(&head, i);
+            list_insert_at_beginning(&head, i);
         }
     }
 
-    traverse(head);
+    list_traverse(head);
 
-    remove_at_beginning(&head);
+    list_remove_at_beginning(&head);
 
-    traverse(head);
+    list_traverse(head);
 
-    remove_at_end(&head);
+    list_remove_at_end(&head);
 
-    sort(&head);
+    list_sort(&head);
 
-    traverse(head);
+    list_traverse(head);
 
-    reverse(&head);
+    list_sort(&head);
 
-    traverse(head);
+    list_traverse(head);
 
-    printf("Value in the second node: %d\n", get(head, 1));
+    list_reverse(&head);
 
-    free_linkedlist(head);
+    list_traverse(head);
+
+    printf("Value in the second node: %d\n", list_geti(head, 1));
+
+    list_free(head);
 }

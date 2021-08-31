@@ -9,19 +9,20 @@ typedef struct node
     struct node *next;
 } node;
 
-node *create_node(int data);
-int get(node *head, int index);
-node *insert_at_beginning(node **head, int data);
-node *insert_at_end(node **head, int data);
-node *insert_at_index(node **head, int index, int data);
-node *remove_at_index(node **head, int index);
-node *remove_at_beginning(node **head);
-node *remove_at_end(node **head);
-node *sort(node **head);
-node *reverse(node **head);
-bool has_cycle(node *head);
-bool is_palindrome(node *head);
-void free_linkedlist(node *head);
-void traverse(node *head);
+node *list_create_node(int data);
+void list_free(node *head);
+void list_traverse(node *head);
+node *list_insert_at_beginning(node **head, int data);
+node *list_remove_at_beginning(node **head);
+node *list_insert_at_end(node **head, int data);
+node *list_remove_at_end(node **head);
+node *list_sort(node **head);
+node *list_reverse(node **head);
+node *list_reverse_recursive(node **head);
+bool list_has_cycle(node *head);
+bool list_is_palindrome(node *head);
+int list_geti(node *head, int index);
+node *list_insert_at_index(node **head, int index, int data);
+node *list_remove_at_index(node **head, int index);
 
 #endif // LINKEDLIST_H
