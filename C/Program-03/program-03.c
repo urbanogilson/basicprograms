@@ -54,5 +54,24 @@ int main(void)
 
     list_traverse(head);
 
+    printf("List Has Cycle: %s\n", list_has_cycle(head) ? "Yes" : "No");
+
+    node *cycle = NULL;
+    cycle = list_create_node(1);
+    cycle->next = list_create_node(2);
+    cycle->next->next = list_create_node(3);
+    cycle->next->next->next = list_create_node(4);
+    cycle->next->next->next->next = list_create_node(5);
+    cycle->next->next->next->next->next = list_create_node(6);
+    cycle->next->next->next->next->next->next = list_create_node(7);
+    cycle->next->next->next->next->next->next->next = list_create_node(8);
+    cycle->next->next->next->next->next->next->next->next = cycle->next->next->next; // 8 -> 4
+
+    printf("List Has Cycle: %s\n", list_has_cycle(cycle) ? "Yes" : "No");
+
+    cycle->next->next->next->next->next->next->next->next = NULL;
+
+    list_free(cycle);
+
     list_free(head);
 }

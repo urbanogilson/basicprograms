@@ -262,3 +262,26 @@ node *list_insert_at_index(node **head, int index, int data)
 
     return *head;
 }
+
+bool list_has_cycle(node *head)
+{
+    if (NULL == head)
+    {
+        return false;
+    }
+
+    node *walker = head, *runner = head;
+
+    while (NULL != runner->next && NULL != runner->next->next)
+    {
+        walker = walker->next;
+        runner = runner->next->next;
+
+        if (walker == runner)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

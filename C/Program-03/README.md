@@ -15,7 +15,7 @@ Write a program that implements [Linked List](https://en.wikipedia.org/wiki/Link
 - [x] Reverse
 - [x] Free
 - [x] Traverse
-- [ ] Has cycle
+- [x] Has cycle
 - [ ] Is palindrome
 - [x] Get the 'data' of the index-th node
 - [x] Add a node of value 'data' at the index-th node
