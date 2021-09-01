@@ -50,5 +50,9 @@ int main(void)
 
     list_traverse(head);
 
+    list_insert_at_index(&head, 1, 11);
+
+    list_traverse(head);
+
     list_free(head);
 }

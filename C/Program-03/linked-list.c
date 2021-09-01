@@ -204,13 +204,13 @@ node *list_remove_at_index(node **head, int index)
     }
 
     node *current = (*head)->next, *previous = *head;
+
     int i = 1;
 
     while (NULL != current)
     {
         if (i == index)
         {
-            printf("Current -> %d\n", current->data);
             previous->next = current->next;
             free(current);
             return *head;
@@ -219,6 +219,45 @@ node *list_remove_at_index(node **head, int index)
         i++;
         previous = current;
         current = current->next;
+    }
+
+    return *head;
+}
+
+node *list_insert_at_index(node **head, int index, int data)
+{
+    if (NULL == *head || index < 0)
+    {
+        return *head;
+    }
+
+    if (index == 0)
+    {
+        return list_insert_at_beginning(head, data);
+    }
+
+    node *current = (*head)->next, *previous = *head;
+
+    int i = 1;
+
+    while (NULL != current)
+    {
+        if (i == index)
+        {
+            node *new_node = list_create_node(data);
+            new_node->next = current;
+            previous->next = new_node;
+            return *head;
+        }
+
+        i++;
+        previous = current;
+        current = current->next;
+    }
+
+    if (i == index)
+    {
+        return list_insert_at_end(head, data);
     }
 
     return *head;
