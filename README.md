@@ -33,6 +33,13 @@ This repository contains basic programs written in languages that I have experie
 </ul>
 </details>
 
+<details>
+<summary>Rust</summary>
+<ul>
+<li></li>
+</ul>
+</details>
+
 ## Contributing
 
 Contributions are always welcome!
