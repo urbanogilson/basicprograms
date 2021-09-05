@@ -34,7 +34,7 @@ void list_traverse(node *head)
         printf("%d -> ", n->data);
     }
 
-    printf("NULL\n");
+    printf("NULL\n\n");
 }
 
 node *list_insert_at_beginning(node **head, int data)
@@ -284,4 +284,38 @@ bool list_has_cycle(node *head)
     }
 
     return false;
+}
+
+bool list_is_palindrome(node *head)
+{
+    if (NULL == head)
+    {
+        return true;
+    }
+
+    node *slow = head, *faster = head, *reversed = NULL, *tmp = NULL;
+
+    while (NULL != faster && NULL != faster->next)
+    {
+        faster = faster->next->next;
+        tmp = slow->next;
+        slow->next = reversed;
+        reversed = slow;
+        slow = tmp;
+    }
+
+    slow = (NULL != faster ? slow->next : slow);
+
+    while (NULL != slow)
+    {
+        if (reversed->data != slow->data)
+        {
+            return false;
+        }
+
+        reversed = reversed->next;
+        slow = slow->next;
+    }
+
+    return true;
 }

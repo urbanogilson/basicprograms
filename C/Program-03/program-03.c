@@ -8,10 +8,11 @@ Linked List
 
 int main(void)
 {
+    printf("Create an empty linked list\n");
     node *head = NULL;
-
     list_traverse(head);
 
+    printf("Insert elements at beginning and at the end!\n");
     for (int i = 0; i < 10; i++)
     {
         if (i % 2 == 0)
@@ -23,38 +24,47 @@ int main(void)
             list_insert_at_beginning(&head, i);
         }
     }
-
     list_traverse(head);
 
+    printf("Remove at beginning!\n");
     list_remove_at_beginning(&head);
-
     list_traverse(head);
 
+    printf("Remove at end!\n");
     list_remove_at_end(&head);
-
-    list_sort(&head);
-
     list_traverse(head);
 
+    printf("Sort list!\n");
     list_sort(&head);
-
     list_traverse(head);
 
+    printf("Reverse list!\n");
     list_reverse(&head);
-
     list_traverse(head);
 
-    printf("Value in the second node: %d\n", list_get_at_index(head, 1));
+    printf("Value in the index 1: %d\n\n", list_get_at_index(head, 1));
 
+    printf("Remove at index 1!\n");
     list_remove_at_index(&head, 1);
-
     list_traverse(head);
 
+    printf("Insert at index 1!\n");
     list_insert_at_index(&head, 1, 11);
-
     list_traverse(head);
 
-    printf("List Has Cycle: %s\n", list_has_cycle(head) ? "Yes" : "No");
+    printf("List Is Palindrome? %s\n", list_is_palindrome(head) ? "Yes" : "No");
+    list_traverse(head);
+
+    node *palindrome = NULL;
+    palindrome = list_create_node(1);
+    palindrome->next = list_create_node(2);
+    palindrome->next->next = list_create_node(2);
+    palindrome->next->next->next = list_create_node(1);
+
+    printf("List Is Palindrome? %s\n", list_is_palindrome(palindrome) ? "Yes" : "No");
+    list_traverse(palindrome);
+
+    printf("List Has Cycle? %s\n", list_has_cycle(head) ? "Yes" : "No");
 
     node *cycle = NULL;
     cycle = list_create_node(1);
@@ -67,9 +77,11 @@ int main(void)
     cycle->next->next->next->next->next->next->next = list_create_node(8);
     cycle->next->next->next->next->next->next->next->next = cycle->next->next->next; // 8 -> 4
 
-    printf("List Has Cycle: %s\n", list_has_cycle(cycle) ? "Yes" : "No");
+    printf("List Has Cycle? %s\n", list_has_cycle(cycle) ? "Yes" : "No");
 
     cycle->next->next->next->next->next->next->next->next = NULL;
+
+    list_free(palindrome);
 
     list_free(cycle);
 
