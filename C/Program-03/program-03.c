@@ -52,19 +52,18 @@ int main(void)
     list_insert_at_index(&head, 1, 11);
     list_traverse(head);
 
-    printf("List Is Palindrome? %s\n", list_is_palindrome(head) ? "Yes" : "No");
+    printf("List Is Palindrome (head)? %s\n", list_is_palindrome(head) ? "Yes" : "No");
     list_traverse(head);
 
     node *palindrome = NULL;
-    palindrome = list_create_node(1);
-    palindrome->next = list_create_node(2);
-    palindrome->next->next = list_create_node(2);
-    palindrome->next->next->next = list_create_node(1);
+    list_insert_at_end(&palindrome, 1);
+    list_insert_at_end(&palindrome, 2);
+    list_insert_at_end(&palindrome, 1);
 
-    printf("List Is Palindrome? %s\n", list_is_palindrome(palindrome) ? "Yes" : "No");
+    printf("List Is Palindrome (palindrome)? %s\n", list_is_palindrome(palindrome) ? "Yes" : "No");
     list_traverse(palindrome);
 
-    printf("List Has Cycle? %s\n", list_has_cycle(head) ? "Yes" : "No");
+    printf("List Has Cycle (head)? %s\n", list_has_cycle(head) ? "Yes" : "No");
 
     node *cycle = NULL;
     cycle = list_create_node(1);
@@ -77,7 +76,7 @@ int main(void)
     cycle->next->next->next->next->next->next->next = list_create_node(8);
     cycle->next->next->next->next->next->next->next->next = cycle->next->next->next; // 8 -> 4
 
-    printf("List Has Cycle? %s\n", list_has_cycle(cycle) ? "Yes" : "No");
+    printf("List Has Cycle (cycle)? %s\n", list_has_cycle(cycle) ? "Yes" : "No");
 
     cycle->next->next->next->next->next->next->next->next = NULL;
 

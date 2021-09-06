@@ -288,12 +288,14 @@ bool list_has_cycle(node *head)
 
 bool list_is_palindrome(node *head)
 {
-    if (NULL == head)
+    bool is_palindrome = true;
+
+    if (NULL == head || NULL == head->next)
     {
-        return true;
+        return is_palindrome;
     }
 
-    node *slow = head, *faster = head, *reversed = NULL, *tmp = NULL;
+    node *slow = head, *faster = head, *reversed = NULL, *tmp = NULL, *first_part = NULL, *last_part;
 
     while (NULL != faster && NULL != faster->next)
     {
@@ -304,18 +306,31 @@ bool list_is_palindrome(node *head)
         slow = tmp;
     }
 
+    first_part = reversed;
+    last_part = slow;
+
     slow = (NULL != faster ? slow->next : slow);
 
     while (NULL != slow)
     {
         if (reversed->data != slow->data)
         {
-            return false;
+            is_palindrome = false;
+            break;
         }
 
         reversed = reversed->next;
         slow = slow->next;
     }
 
-    return true;
+    head = list_reverse(&first_part);
+
+    while (NULL != first_part->next)
+    {
+        first_part = first_part->next;
+    }
+
+    first_part->next = last_part;
+
+    return is_palindrome;
 }
