@@ -16,6 +16,7 @@ node *list_insert_at_beginning(node **head, int data);
 node *list_remove_at_beginning(node **head);
 node *list_insert_at_end(node **head, int data);
 node *list_remove_at_end(node **head);
+node *list_search(node *head, int data);
 node *list_sort(node **head);
 node *list_reverse(node **head);
 node *list_reverse_recursive(node **head);

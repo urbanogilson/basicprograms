@@ -22,6 +22,7 @@ Write a program that implements [Linked List](https://en.wikipedia.org/wiki/Link
 - [x] Get the 'data' of the index-th node
 - [x] Add a node of value 'data' at the index-th node
 - [x] Delete the index-th node
+- [x] Search node by the given key
 
 ## References
 

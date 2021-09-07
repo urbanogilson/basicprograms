@@ -334,3 +334,25 @@ bool list_is_palindrome(node *head)
 
     return is_palindrome;
 }
+
+node *list_search(node *head, int data)
+{
+    if (NULL == head)
+    {
+        return NULL;
+    }
+
+    node *loop = head;
+
+    while (NULL != loop)
+    {
+        if (loop->data == data)
+        {
+            return loop;
+        }
+
+        loop = loop->next;
+    }
+
+    return NULL;
+}
