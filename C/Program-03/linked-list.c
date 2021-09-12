@@ -356,3 +356,15 @@ node *list_search(node *head, int data)
 
     return NULL;
 }
+
+int list_length(node *head)
+{
+    int count = 0;
+
+    for (node *curent = head; NULL != curent; curent = curent->next)
+    {
+        count++;
+    }
+
+    return count;
+}

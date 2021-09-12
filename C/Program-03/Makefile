@@ -13,3 +13,6 @@ program-03: $(OBJ)
 
 clean:
 	rm -f *.o *~ core $(INCDIR)/*~ 
+
+run:
+	./program-03

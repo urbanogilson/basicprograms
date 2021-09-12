@@ -12,6 +12,7 @@ typedef struct node
 node *list_create_node(int data);
 void list_free(node *head);
 void list_traverse(node *head);
+int list_length(node *head);
 node *list_insert_at_beginning(node **head, int data);
 node *list_remove_at_beginning(node **head);
 node *list_insert_at_end(node **head, int data);

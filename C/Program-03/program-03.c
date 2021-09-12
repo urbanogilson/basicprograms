@@ -81,10 +81,14 @@ int main(void)
     cycle->next->next->next->next->next->next->next->next = NULL;
 
     node *found = list_search(head, 5);
-    printf("Found value: %d\n", found ? found->data : -1);
+    printf("\nFound value: %d\n", found ? found->data : -1);
 
     found = list_search(head, 10);
     printf("Found value: %d\n", found ? found->data : -1);
+
+    printf("\nList length (palindrome): %d\n", list_length(palindrome));
+    printf("List length (cycle): %d\n", list_length(cycle));
+    printf("List length (head): %d\n", list_length(head));
 
     list_free(palindrome);
 
