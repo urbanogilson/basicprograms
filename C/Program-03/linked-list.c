@@ -337,21 +337,12 @@ bool list_is_palindrome(node *head)
 
 node *list_search(node *head, int data)
 {
-    if (NULL == head)
+    for (node *curent = head; NULL != curent; curent = curent->next)
     {
-        return NULL;
-    }
-
-    node *loop = head;
-
-    while (NULL != loop)
-    {
-        if (loop->data == data)
+        if (curent->data == data)
         {
-            return loop;
+            return curent;
         }
-
-        loop = loop->next;
     }
 
     return NULL;
