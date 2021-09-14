@@ -26,5 +26,5 @@ bool list_is_palindrome(node *head);
 int list_get_at_index(node *head, int index);
 node *list_insert_at_index(node **head, int index, int data);
 node *list_remove_at_index(node **head, int index);
-
+node *list_sorted_merge(node *a, node *b);
 #endif // LINKEDLIST_H

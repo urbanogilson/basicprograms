@@ -16,3 +16,11 @@ clean:
 
 run:
 	./program-03
+
+valgrind:
+		valgrind --leak-check=full \
+         --show-leak-kinds=all \
+         --track-origins=yes \
+         --verbose \
+         --log-file=valgrind-program-03.txt \
+        ./program-03
