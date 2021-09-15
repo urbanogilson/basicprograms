@@ -1,4 +1,7 @@
 # Basic Programs
+
+"_Easy is what you know_" ~ Unknown
+
 This repository contains basic programs written in languages that I have experience or am learning.
 
 ## Badges
@@ -21,6 +24,13 @@ This repository contains basic programs written in languages that I have experie
 
 <details>
 <summary>C++</summary>
+<ul>
+<li></li>
+</ul>
+</details>
+
+<details>
+<summary>JavaScript</summary>
 <ul>
 <li></li>
 </ul>
