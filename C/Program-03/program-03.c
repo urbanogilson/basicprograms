@@ -90,7 +90,13 @@ int main(void)
     printf("List length (cycle): %d\n", list_length(cycle));
     printf("List length (head): %d\n", list_length(head));
 
-    list_free(palindrome);
+    printf("\nMerge sorted lists\n");
+    list_sort(&head);
+    list_sort(&palindrome);
+    list_traverse(head);
+    list_traverse(palindrome);
+    head = list_sorted_merge(head, palindrome);
+    list_traverse(head);
 
     list_free(cycle);
 

@@ -359,3 +359,37 @@ int list_length(node *head)
 
     return count;
 }
+
+node *list_sorted_merge(node *a, node *b)
+{
+    node *result = NULL;
+    node **last = &result;
+
+    while (NULL != a || NULL != b)
+    {
+        if (NULL != a && NULL != b && a->data <= b->data)
+        {
+            *last = a;
+            a = a->next;
+        }
+        else if (NULL != a && NULL != b && a->data > b->data)
+        {
+            *last = b;
+            b = b->next;
+        }
+        else if (NULL != a)
+        {
+            *last = a;
+            a = a->next;
+        }
+        else if (NULL != b)
+        {
+            *last = b;
+            b = b->next;
+        }
+
+        last = &((*last)->next);
+    }
+
+    return result;
+}

@@ -24,7 +24,7 @@ Write a program that implements [Linked List](https://en.wikipedia.org/wiki/Link
 - [x] Delete the index-th node
 - [x] Search node by the given key
 - [x] Get length
-- [ ] Merge two sorted lists
+- [x] Merge two sorted lists
 
 ## References
 
