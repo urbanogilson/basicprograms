@@ -25,6 +25,8 @@ Write a program that implements [Linked List](https://en.wikipedia.org/wiki/Link
 - [x] Search node by the given key
 - [x] Get length
 - [x] Merge two sorted lists
+- [x] Split list
+- [x] Merge sort
 
 ## References
 

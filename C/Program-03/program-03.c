@@ -98,6 +98,20 @@ int main(void)
     head = list_sorted_merge(head, palindrome);
     list_traverse(head);
 
+    printf("\nSplit list\n");
+    node *a, *b;
+    list_traverse(head);
+    list_from_back_split(head, &a, &b);
+    list_traverse(a);
+    list_traverse(b);
+    head = list_sorted_merge(a, b);
+
+    printf("\nSort using merge sort\n");
+    list_reverse(&head);
+    list_traverse(head);
+    list_merge_sort(&head);
+    list_traverse(head);
+
     list_free(cycle);
 
     list_free(head);

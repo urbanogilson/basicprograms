@@ -393,3 +393,49 @@ node *list_sorted_merge(node *a, node *b)
 
     return result;
 }
+
+void list_from_back_split(struct node *source, struct node **front_ref, struct node **back_ref)
+{
+    node *fast, *slow;
+
+    if (source == NULL || source->next == NULL)
+    {
+        *front_ref = source;
+        *back_ref = NULL;
+    }
+    else
+    {
+        slow = source;
+        fast = source->next;
+
+        while (NULL != fast)
+        {
+            fast = fast->next;
+            if (NULL != fast)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+
+        *front_ref = source;
+        *back_ref = slow->next;
+        slow->next = NULL;
+    }
+}
+
+void list_merge_sort(node **head)
+{
+    struct node *a, *b;
+
+    if ((*head == NULL) || ((*head)->next == NULL))
+    {
+        return;
+    }
+
+    list_from_back_split(*head, &a, &b);
+    list_merge_sort(&a);
+    list_merge_sort(&b);
+
+    *head = list_sorted_merge(a, b);
+}
