@@ -394,14 +394,14 @@ node *list_sorted_merge(node *a, node *b)
     return result;
 }
 
-void list_from_back_split(struct node *source, struct node **front_ref, struct node **back_ref)
+void list_split(struct node *source, struct node **init, struct node **end)
 {
     node *fast, *slow;
 
     if (source == NULL || source->next == NULL)
     {
-        *front_ref = source;
-        *back_ref = NULL;
+        *init = source;
+        *end = NULL;
     }
     else
     {
@@ -418,8 +418,8 @@ void list_from_back_split(struct node *source, struct node **front_ref, struct n
             }
         }
 
-        *front_ref = source;
-        *back_ref = slow->next;
+        *init = source;
+        *end = slow->next;
         slow->next = NULL;
     }
 }
@@ -433,7 +433,7 @@ void list_merge_sort(node **head)
         return;
     }
 
-    list_from_back_split(*head, &a, &b);
+    list_split(*head, &a, &b);
     list_merge_sort(&a);
     list_merge_sort(&b);
 

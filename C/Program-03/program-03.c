@@ -101,7 +101,7 @@ int main(void)
     printf("\nSplit list\n");
     node *a, *b;
     list_traverse(head);
-    list_from_back_split(head, &a, &b);
+    list_split(head, &a, &b);
     list_traverse(a);
     list_traverse(b);
     head = list_sorted_merge(a, b);

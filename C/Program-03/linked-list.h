@@ -27,6 +27,6 @@ int list_get_at_index(node *head, int index);
 node *list_insert_at_index(node **head, int index, int data);
 node *list_remove_at_index(node **head, int index);
 node *list_sorted_merge(node *a, node *b);
-void list_from_back_split(struct node *source, struct node **front_ref, struct node **back_ref);
+void list_split(struct node *source, struct node **init, struct node **end);
 void list_merge_sort(node **head);
 #endif // LINKEDLIST_H
