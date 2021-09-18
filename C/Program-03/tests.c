@@ -1,6 +1,7 @@
 #include "unittest.h"
 #include <stdio.h>
 #include "linked-list.h"
+#include <stdlib.h>
 
 int main(void)
 {
@@ -33,6 +34,13 @@ int main(void)
     // 10 -> 20 -> NULL
     list_remove_at_end(&head);
     TEST(head != NULL && head->data == 10 && head->next->data == 20 && head->next->next == NULL);
+
+    // 33 -> NULL
+    node *one = list_create_node(33);
+    TEST(one != NULL && one->data == 33 && one->next == NULL);
+    list_remove_at_end(&one);
+    TEST(one == NULL);
+    free(one);
 
     // 10 -> 20 -> NULL
     node *search = list_search(head, 20);
@@ -115,4 +123,25 @@ int main(void)
     // 10 -> 20 -> 30 -> NULL
     list_merge_sort(&head);
     TEST(head != NULL && head->data == 10 && head->next->data == 20 && head->next->next->data == 30 && head->next->next->next == NULL);
+
+    // 10 -> 20 -> 30 -> NULL
+    TEST(list_has_cycle(head) == false);
+    // 10 -> 20 -> 30 -> 20 ...
+    head->next->next->next = head->next->next;
+    TEST(list_has_cycle(head) == true);
+    // 10 -> 20 -> 30 -> NULL
+    head->next->next->next = NULL;
+    TEST(list_has_cycle(head) == false);
+
+    // 10 -> 20 -> 30 -> NULL
+    TEST(list_is_palindrome(head) == false);
+    // 30 -> 20 -> 30 -> NULL
+    head->data = 30;
+    TEST(list_is_palindrome(head) == true);
+
+    // 30 -> 20 -> 30 -> NULL
+    list_traverse(head);
+
+    // empty
+    list_free(head);
 }

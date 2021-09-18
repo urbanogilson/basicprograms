@@ -28,4 +28,10 @@ valgrind:
 		./$(PROGRAM)
 
 tests:
-	$(CC) -o tests $(TEST) $(CFLAGS) && ./tests
+	$(CC) -o tests $(TEST) $(CFLAGS) && valgrind --leak-check=full \
+		--show-leak-kinds=all \
+		--track-origins=yes \
+		--verbose \
+		--log-file=tests.txt \
+		./tests \
+		&& rm -f tests
