@@ -86,9 +86,9 @@ int main(void)
     found = list_search(head, 10);
     printf("Found value: %d\n", found ? found->data : -1);
 
-    printf("\nList length (palindrome): %d\n", list_length(palindrome));
-    printf("List length (cycle): %d\n", list_length(cycle));
-    printf("List length (head): %d\n", list_length(head));
+    printf("\nList length (palindrome): %zd\n", list_length(palindrome));
+    printf("List length (cycle): %zd\n", list_length(cycle));
+    printf("List length (head): %zd\n", list_length(head));
 
     printf("\nMerge sorted lists\n");
     list_sort(&head);

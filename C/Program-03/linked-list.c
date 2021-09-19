@@ -131,13 +131,15 @@ node *list_sort(node **head)
         return NULL;
     }
 
+    int temp = 0;
+
     for (node *i = *head; i != NULL; i = i->next)
     {
         for (node *j = *head; j != NULL; j = j->next)
         {
             if (i->data < j->data)
             {
-                int temp = i->data;
+                temp = i->data;
                 i->data = j->data;
                 j->data = temp;
             }
@@ -169,15 +171,15 @@ node *list_reverse(node **head)
     return *head;
 }
 
-int list_get_at_index(node *head, int index)
+int list_get_at_index(node *head, size_t index)
 {
-    if (head == NULL || index < 0)
+    if (head == NULL)
     {
         return -1;
     }
 
     node *current = head;
-    int i = 0;
+    size_t i = 0;
 
     while (current != NULL)
     {
@@ -193,9 +195,9 @@ int list_get_at_index(node *head, int index)
     return -1;
 }
 
-node *list_remove_at_index(node **head, int index)
+node *list_remove_at_index(node **head, size_t index)
 {
-    if (*head == NULL || index < 0)
+    if (*head == NULL)
     {
         return *head;
     }
@@ -207,7 +209,7 @@ node *list_remove_at_index(node **head, int index)
 
     node *current = (*head)->next, *previous = *head;
 
-    int i = 1;
+    size_t i = 1;
 
     while (NULL != current)
     {
@@ -226,9 +228,9 @@ node *list_remove_at_index(node **head, int index)
     return *head;
 }
 
-node *list_insert_at_index(node **head, int index, int data)
+node *list_insert_at_index(node **head, size_t index, int data)
 {
-    if (*head == NULL || index < 0)
+    if (*head == NULL)
     {
         return *head;
     }
@@ -240,7 +242,7 @@ node *list_insert_at_index(node **head, int index, int data)
 
     node *current = (*head)->next, *previous = *head;
 
-    int i = 1;
+    size_t i = 1;
 
     while (current != NULL)
     {
@@ -350,9 +352,9 @@ node *list_search(node *head, int data)
     return NULL;
 }
 
-int list_length(node *head)
+size_t list_length(node *head)
 {
-    int count = 0;
+    size_t count = 0;
 
     for (node *curent = head; curent != NULL; curent = curent->next)
     {
@@ -362,32 +364,32 @@ int list_length(node *head)
     return count;
 }
 
-node *list_sorted_merge(node *a, node *b)
+node *list_sorted_merge(node *head_a, node *head_b)
 {
     node *result = NULL;
     node **last = &result;
 
-    while (a != NULL || b != NULL)
+    while (head_a != NULL || head_b != NULL)
     {
-        if (a != NULL && b != NULL && a->data <= b->data)
+        if (head_a != NULL && head_b != NULL && head_a->data <= head_b->data)
         {
-            *last = a;
-            a = a->next;
+            *last = head_a;
+            head_a = head_a->next;
         }
-        else if (a != NULL && b != NULL && a->data > b->data)
+        else if (head_a != NULL && head_b != NULL && head_a->data > head_b->data)
         {
-            *last = b;
-            b = b->next;
+            *last = head_b;
+            head_b = head_b->next;
         }
-        else if (a != NULL)
+        else if (head_a != NULL)
         {
-            *last = a;
-            a = a->next;
+            *last = head_a;
+            head_a = head_a->next;
         }
-        else if (b != NULL)
+        else if (head_b != NULL)
         {
-            *last = b;
-            b = b->next;
+            *last = head_b;
+            head_b = head_b->next;
         }
 
         last = &((*last)->next);
@@ -396,19 +398,19 @@ node *list_sorted_merge(node *a, node *b)
     return result;
 }
 
-void list_split(struct node *source, struct node **init, struct node **end)
+void list_split(node *head, node **init, node **end)
 {
     node *fast, *slow;
 
-    if (source == NULL || source->next == NULL)
+    if (head == NULL || head->next == NULL)
     {
-        *init = source;
+        *init = head;
         *end = NULL;
     }
     else
     {
-        slow = source;
-        fast = source->next;
+        slow = head;
+        fast = head->next;
 
         while (fast != NULL)
         {
@@ -420,7 +422,7 @@ void list_split(struct node *source, struct node **init, struct node **end)
             }
         }
 
-        *init = source;
+        *init = head;
         *end = slow->next;
         slow->next = NULL;
     }
