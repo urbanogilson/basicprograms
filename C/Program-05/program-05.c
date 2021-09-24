@@ -48,7 +48,7 @@ int **dummy_matrix(size_t n_rows, size_t n_cols)
     return matrix;
 }
 
-void free_matrix(int **matrix, size_t n_rows, size_t n_cols)
+void free_matrix(int **matrix)
 {
     free(*matrix);
     free(matrix);
@@ -60,7 +60,7 @@ void print_memory(int **matrix, size_t n_rows, size_t n_cols)
     {
         for (size_t j = 0; j < n_cols; j++)
         {
-            fprintf(stdout, "%p ", *(matrix + i) + j);
+            fprintf(stdout, "%p ", (void *)(*(matrix + i) + j));
         }
         fprintf(stdout, "\n");
     }
@@ -72,7 +72,7 @@ void print_matrix(int **matrix, size_t n_rows, size_t n_cols)
     {
         for (size_t j = 0; j < n_cols; j++)
         {
-            fprintf(stdout, "%d ", *(*(matrix + i) + j));
+            fprintf(stdout, "%02d ", *(*(matrix + i) + j));
         }
         fprintf(stdout, "\n");
     }
@@ -80,10 +80,11 @@ void print_matrix(int **matrix, size_t n_rows, size_t n_cols)
 
 int main(void)
 {
-    size_t n_rows = 3, n_cols = 3;
+    size_t n_rows = 5, n_cols = 5;
 
-    int **matrix = create_matrix(n_rows, n_cols);
+    int **matrix = dummy_matrix(n_rows, n_cols);
     print_matrix(matrix, n_rows, n_cols);
+    printf("\n");
     print_memory(matrix, n_rows, n_cols);
-    free_matrix(matrix, n_rows, n_cols);
+    free_matrix(matrix);
 }
