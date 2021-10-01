@@ -1,6 +1,18 @@
 #include <stdio.h>
 #include "matrix.h"
 
+size_t str_len(const char *string)
+{
+    size_t len = 0;
+
+    while (*(string + len) != '\0')
+    {
+        len++;
+    }
+
+    return len;
+}
+
 int main(void)
 {
     int x = 5;
@@ -20,6 +32,9 @@ int main(void)
         // fprintf(stdout, "%d\n", i[array]);     /* Array notation (Also valid) */
     }
     fprintf(stdout, "\n\n");
+
+    char *test = "Hello, World!";
+    fprintf(stdout, "Length of '%s' is %zd\n", test, str_len(test));
 
     size_t n_rows = 3, n_cols = 3;
 
