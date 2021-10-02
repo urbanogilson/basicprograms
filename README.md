@@ -21,6 +21,7 @@ This repository contains basic programs written in languages that I have experie
 <li><a href="C/Program-03">Program-03</a> - <a href="https://en.wikipedia.org/wiki/Linked_list">Linked List</a> operations</li>
 <li><a href="C/Program-04">Program-04</a> - Locate an existing contact in a list using the partial or full number</li>
 <li><a href="C/Program-05">Program-05</a> - Pointers</li>
+<li><a href="C/Program-06">Program-06</a> - C Compilation Process</li>
 </ul>
 </details>
 
