@@ -28,7 +28,7 @@ This repository contains basic programs written in languages that I have experie
 <details>
 <summary>C++</summary>
 <ul>
-<li></li>
+<li><a href="C++/Program-00">Program-00</a> - Reimplementation  of <a href="https://github.com/kamranahmedse/design-patterns-for-humans">Design patterns for humans (PHP)</a> in C++</li>
 </ul>
 </details>
 
