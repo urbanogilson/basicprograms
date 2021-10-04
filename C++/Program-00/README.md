@@ -7,34 +7,34 @@ Reimplementation  of [Design patterns for humans (PHP)](https://github.com/kamra
 ### Creational
 
 - [x] [Simple Factory](creational/simple_factory.cpp)
-- [] Factory Method
-- [] Abstract Factory
-- [] Builder
-- [] Prototype
-- [] Singleton
+- [ ] Factory Method
+- [ ] Abstract Factory
+- [ ] Builder
+- [ ] Prototype
+- [ ] Singleton
 
 ### Structural
 
-- [] Adapter
-- [] Bridge
-- [] Composite
-- [] Decorator
-- [] Facade
-- [] Flyweight
-- [] Proxy
+- [ ] Adapter
+- [ ] Bridge
+- [ ] Composite
+- [ ] Decorator
+- [ ] Facade
+- [ ] Flyweight
+- [ ] Proxy
 
 ### Behavioral
 
-- [] Chain of Responsibility
-- [] Command
-- [] Iterator
-- [] Mediator
-- [] Memento
-- [] Observer
-- [] Visitor
-- [] Strategy
-- [] State
-- [] Template Method
+- [ ] Chain of Responsibility
+- [ ] Command
+- [ ] Iterator
+- [ ] Mediator
+- [ ] Memento
+- [ ] Observer
+- [ ] Visitor
+- [ ] Strategy
+- [ ] State
+- [ ] Template Method
 
 ## References
 
