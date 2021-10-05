@@ -7,7 +7,7 @@ Reimplementation  of [Design patterns for humans (PHP)](https://github.com/kamra
 ### Creational
 
 - [x] [Simple Factory](creational/simple_factory.cpp)
-- [ ] Factory Method
+- [x] Factory Method
 - [ ] Abstract Factory
 - [ ] Builder
 - [ ] Prototype
