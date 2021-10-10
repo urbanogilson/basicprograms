@@ -9,9 +9,9 @@ Reimplementation  of [Design patterns for humans (PHP)](https://github.com/kamra
 - [x] [Simple Factory](creational/simple_factory.cpp)
 - [x] [Factory Method](creational/factory_method.cpp)
 - [x] [Abstract Factory](creational/abstract_factory.cpp)
-- [x] Builder
-- [ ] Prototype
-- [ ] Singleton
+- [x] [Builder](creational/builder.cpp)
+- [x] [Prototype](creational/prototype.cpp)
+- [x] [Singleton](creational/singleton.cpp)
 
 ### Structural
 
