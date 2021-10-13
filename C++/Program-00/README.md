@@ -15,26 +15,26 @@ Reimplementation  of [Design patterns for humans (PHP)](https://github.com/kamra
 
 ### Structural
 
-- [ ] Adapter
-- [ ] Bridge
-- [ ] Composite
-- [ ] Decorator
-- [ ] Facade
-- [ ] Flyweight
-- [ ] Proxy
+- [x] [Adapter](structural/adapter.cpp)
+- [x] [Bridge](structural/bridge.cpp)
+- [ ] [Composite](structural/composite.cpp)
+- [ ] [Decorator](structural/decorator.cpp)
+- [ ] [Facade](structural/facade.cpp)
+- [ ] [Flyweight](structural/flyweight.cpp)
+- [ ] [Proxy](structural/proxy.cpp)
 
 ### Behavioral
 
-- [ ] Chain of Responsibility
-- [ ] Command
-- [ ] Iterator
-- [ ] Mediator
-- [ ] Memento
-- [ ] Observer
-- [ ] Visitor
-- [ ] Strategy
-- [ ] State
-- [ ] Template Method
+- [ ] [Chain of Responsibility](behavioral/chain.cpp)
+- [ ] [Command](behavioral/command.cpp)
+- [ ] [Iterator](behavioral/iterator.cpp)
+- [ ] [Mediator](behavioral/mediator.cpp)
+- [ ] [Memento](behavioral/memento.cpp)
+- [ ] [Observer](behavioral/observer.cpp)
+- [ ] [Visitor](behavioral/visitor.cpp)
+- [ ] [Strategy](behavioral/strategy.cpp)
+- [ ] [State](behavioral/state.cpp)
+- [ ] [Template Method](behavioral/template.cpp)
 
 ## References
 
