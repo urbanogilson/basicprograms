@@ -22,6 +22,7 @@ This repository contains basic programs written in languages that I have experie
 <li><a href="C/Program-04">Program-04</a> - Locate an existing contact in a list using the partial or full number</li>
 <li><a href="C/Program-05">Program-05</a> - Pointers</li>
 <li><a href="C/Program-06">Program-06</a> - C Compilation Process</li>
+<li><a href="C/Program-07">Program-07</a> - <a href="https://en.wikipedia.org/wiki/Hash_table">Hash table</a></li>
 </ul>
 </details>
 
