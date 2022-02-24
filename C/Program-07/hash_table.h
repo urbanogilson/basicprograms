@@ -1,3 +1,6 @@
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
+
 #include <stddef.h>
 
 #define HT_PRIME_1 157
@@ -21,3 +24,6 @@ void ht_del_hash_table(ht_hash_table* hash_table);
 void ht_insert(ht_hash_table* hash_table, const char* key, const char* value);
 char* ht_search(ht_hash_table* hash_table, const char* key);
 void ht_delete(ht_hash_table* hash_table, const char* key);
+char* strdup(const char* string);
+
+#endif  // HASHTABLE_H

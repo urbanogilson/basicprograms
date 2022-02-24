@@ -7,16 +7,18 @@
 
 #include "prime.h"
 
-char* strdup(const char* s) {
-  size_t size = strlen(s) + 1;
-  char* p = malloc(size);
-  if (p != NULL) {
-    memcpy(p, s, size);
-  }
-  return p;
-}
-
 static ht_item HT_DELETED_ITEM = {NULL, NULL};
+
+char* strdup(const char* string) {
+  const size_t size = strlen(string) + 1;
+  char* pointer = (char*)malloc(size);
+
+  if (pointer != NULL) {
+    memcpy(pointer, string, size);
+  }
+
+  return pointer;
+}
 
 static ht_item* ht_new_item(const char* key, const char* value) {
   ht_item* item = (ht_item*)malloc(sizeof(ht_item));
@@ -27,14 +29,6 @@ static ht_item* ht_new_item(const char* key, const char* value) {
 
   item->key = strdup(key);
   item->value = strdup(value);
-
-  if (item->key == NULL) {
-    return NULL;
-  }
-
-  if (item->value == NULL) {
-    return NULL;
-  }
 
   return item;
 }
@@ -48,12 +42,8 @@ static ht_hash_table* ht_new_sized(const size_t base_size) {
 
   hash_table->base_size = base_size;
   hash_table->size = next_prime(base_size);
-  hash_table->items = 0;
+  hash_table->count = 0;
   hash_table->items = (ht_item**)calloc(hash_table->size, sizeof(ht_item*));
-
-  if (hash_table->items == NULL) {
-    return NULL;
-  }
 
   return hash_table;
 }
@@ -62,8 +52,11 @@ static void ht_resize(ht_hash_table* hash_table, const size_t base_size) {
   if (base_size < HT_INITIAL_BASE_SIZE) {
     return;
   }
-
   ht_hash_table* new_hash_table = ht_new_sized(base_size);
+
+  if (new_hash_table == NULL) {
+    return;
+  }
 
   for (size_t i = 0; i < hash_table->size; i++) {
     ht_item* item = hash_table->items[i];
@@ -108,10 +101,8 @@ static size_t ht_hash(const char* string, const int prime,
   const size_t string_len = strlen(string);
   for (size_t i = 0; i < string_len; i++) {
     hash += (size_t)pow(prime, (string_len - (i + 1))) * string[i];
-    hash = hash % buckets;
   }
-  // hash = hash % buckets; // maybe here
-  return hash;
+  return hash % buckets;
 }
 
 static size_t ht_get_hash(const char* string, const size_t buckets,
@@ -142,6 +133,7 @@ void ht_del_hash_table(ht_hash_table* hash_table) {
 
 void ht_insert(ht_hash_table* hash_table, const char* key, const char* value) {
   const size_t load = hash_table->count * 100 / hash_table->size;
+
   if (load > 70) {
     ht_resize_up(hash_table);
   }
