@@ -7,12 +7,30 @@
 #include <unistd.h>
 
 #include <cstring>
+#include <iostream>
 #include <string>
 
 #include "kvdb.h"
 #include "status.h"
+#include "threadpool.h"
 
 namespace kvdb {
+class NetworkTask : public Task {
+ public:
+  NetworkTask(int sockfd, kvdb::Kvdb *db) : sockfd_(sockfd), db_(db) {}
+  virtual ~NetworkTask(){};
+  virtual void RunInLock(std::thread::id thread_id) {
+    std::cout << "RunInLock \tThread " << thread_id << std::endl;
+  }
+  virtual void Run(std::thread::id thread_id) {
+    std::cout << "RunInLock \tThread " << thread_id << std::endl;
+  }
+
+ private:
+  int sockfd_;
+  kvdb::Kvdb *db_;
+};
+
 Status Server::Start(const std::string &dbname, const int &port) {
   int status, sockfd, new_sockfd, yes = 1;
   struct addrinfo hints, *serverinfo, *pointer;
@@ -61,6 +79,9 @@ Status Server::Start(const std::string &dbname, const int &port) {
 
   std::string name = "kvdb";  // TODO: Extract to an argument
   kvdb::Kvdb db(name);
+  size_t num_threads = 4;  // TODO: Extract to an argument
+  kvdb::Threadpool thread_pool(num_threads);
+  thread_pool.Start();
 
   // Server: waiting for connections...
   while (1) {
@@ -73,8 +94,9 @@ Status Server::Start(const std::string &dbname, const int &port) {
     inet_ntop(their_addr.ss_family, GetInAddr((struct sockaddr *)&their_addr),
               address, sizeof(address));
 
-    // ! Add task
+    thread_pool.AddTask(new NetworkTask(new_sockfd, &db));
   }
+
   return Status::Ok();
 }
 }  // namespace kvdb

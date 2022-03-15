@@ -21,7 +21,7 @@ class Status {
       : code_(Code::kOK), message_(message) {}
   ~Status() {}
 
-  static Status Ok() { return Status(); };
+  static Status Ok(void) { return Status(); };
   static Status IOError(const std::string& message) {
     return Status(Code::kIOError, message);
   }
