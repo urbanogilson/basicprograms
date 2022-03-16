@@ -9,7 +9,7 @@ int main(int argc, char const *argv[]) {
   std::cout << "kvdb" << std::endl;
 
   kvdb::Server server;
-  // server.Start(std::string("kvdb"), 8080);
+  server.Start(std::string("kvdb"), 8080);
 
   return 0;
 }

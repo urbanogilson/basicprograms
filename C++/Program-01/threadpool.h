@@ -4,6 +4,8 @@
 #include <condition_variable>
 #include <queue>
 #include <thread>
+#include <vector>
+#include <mutex>
 
 namespace kvdb {
 
