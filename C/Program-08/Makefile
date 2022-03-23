@@ -3,8 +3,9 @@ CFLAGS=-Wall -Wextra # -Werror
 DEPS = network.h
 SERVER_OBJ = server.o network.o
 CLIENT_OBJ = client.o network.o
+SHOWIP_OBJ = showip.o
 
-all: server client
+all: server client showip
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -15,7 +16,10 @@ server: $(SERVER_OBJ)
 client: $(CLIENT_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+showip: $(SHOWIP_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 clean:
-	rm server client *.o
+	rm server client showip *.o
