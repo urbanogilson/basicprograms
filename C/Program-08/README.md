@@ -16,13 +16,23 @@ Beej's Guide to Network Programming code.
 |2|Data link|
 |1|Physical|
 
-
 ## Sockets
 
  - **Stream Sockets**: SOCK_STREAM
  - **Datagram Sockets**: SOCK_DGRAM
 
 Note: HTTP uses stream sockets
+
+
+## 
+
+The sequence of system calls when you're going to be listening for incoming connections:
+
+1. getaddrinfo();
+1. socket();
+1. bind();
+1. listen();
+1. accept();
 
 ## References
 
