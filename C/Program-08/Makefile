@@ -4,9 +4,10 @@ DEPS = network.h
 SERVER_OBJ = server.o network.o
 CLIENT_OBJ = client.o network.o
 LISTENER_OBJ = listener.o network.o
+TALKER_OBJ = talker.o network.o
 SHOWIP_OBJ = showip.o
 
-all: server client showip listener
+all: server client showip listener talker
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -23,7 +24,10 @@ showip: $(SHOWIP_OBJ)
 listener: $(LISTENER_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+talker: $(TALKER_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 clean:
-	rm server client showip listener *.o
+	rm server client showip listener talker *.o

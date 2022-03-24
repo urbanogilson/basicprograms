@@ -27,7 +27,7 @@ int main(void) {
   char s[INET6_ADDRSTRLEN];
 
   memset(&hints, 0, sizeof(hints));
-  hints.ai_family = AF_INET;
+  hints.ai_family = AF_INET6;
   hints.ai_socktype = SOCK_DGRAM;
   hints.ai_flags = AI_PASSIVE;
 
@@ -37,8 +37,8 @@ int main(void) {
   }
 
   for (p = servinfo; p != NULL; p = p->ai_next) {
-    if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) != 1) {
-      perror("listener:socket");
+    if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
+      perror("listener: socket");
       continue;
     }
 
@@ -63,7 +63,7 @@ int main(void) {
   addr_len = sizeof(their_addr);
 
   if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN - 1, 0,
-                           (struct sockaddr *)&their_addr, &addr_len)) != -1) {
+                           (struct sockaddr *)&their_addr, &addr_len)) == -1) {
     perror("recvfrom");
     exit(1);
   }
