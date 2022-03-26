@@ -7,8 +7,10 @@ LISTENER_OBJ = listener.o network.o
 TALKER_OBJ = talker.o network.o
 SHOWIP_OBJ = showip.o
 POLL_OBJ = poll.o
+POLLSERVER_OBJ = pollserver.o network.o
 
-all: server client showip listener talker poll
+
+all: server client showip listener talker poll pollserver
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -31,7 +33,10 @@ talker: $(TALKER_OBJ)
 poll: $(POLL_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+pollserver: $(POLLSERVER_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 clean:
-	rm server client showip listener talker poll *.o
+	rm server client showip listener talker poll pollserver *.o
