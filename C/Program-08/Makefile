@@ -10,8 +10,9 @@ POLL_OBJ = poll.o
 POLLSERVER_OBJ = pollserver.o network.o
 SELECT_OBJ = select.o
 SELECTSERVER_OBJ = selectserver.o  network.o
+BROADCASTER_OBJ = broadcaster.o
 
-all: server client showip listener talker poll pollserver select selectserver
+all: server client showip listener talker poll pollserver select selectserver broadcaster
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -43,7 +44,10 @@ select: $(SELECT_OBJ)
 selectserver: $(SELECTSERVER_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+broadcaster: $(BROADCASTER_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 clean:
-	rm server client showip listener talker poll pollserver select selectserver *.o
+	rm server client showip listener talker poll pollserver select selectserver broadcaster *.o
