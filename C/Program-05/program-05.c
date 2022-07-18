@@ -24,22 +24,27 @@ int main(void) {
 
   int array[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
   for (size_t i = 0; i < 9; i++) {
-    fprintf(stdout, "%d ", array[i]); /* Array notation */
-    // fprintf(stdout, "%d\n", *(array + i)); /* Pointer notation */
-    // fprintf(stdout, "%d\n", *(i + array)); /* Pointer notation (Also valid)
-    // */ fprintf(stdout, "%d\n", i[array]);     /* Array notation (Also valid)
-    // */
+    fprintf(stdout, "%d ", array[i]);  // Array notation
+    // fprintf(stdout, "%d\n", *(array + i));  // Pointer notation
+    // fprintf(stdout, "%d\n", *(i + array));  // Pointer notation (Also valid)
+    // fprintf(stdout, "%d\n", i[array]);      // Array notation (Also valid)
   }
   fprintf(stdout, "\n\n");
 
   char *test = "Hello, World!";
   fprintf(stdout, "Length of '%s' is %zd\n", test, str_len(test));
 
-  size_t n_rows = 3, n_cols = 3;
+  matrix_t m = matrix_ones(3, 3);
+  matrix_print(stdout, &m);
+  matrix_print_memory(stdout, &m);
+  matrix_free(m);
 
-  int **matrix = matrix_dummy(n_rows, n_cols);
-  matrix_print(matrix, n_rows, n_cols);
-  fprintf(stdout, "\n");
-  matrix_print_memory(matrix, n_rows, n_cols);
-  matrix_free(matrix);
+  matrix_t m_a = matrix_ones(4, 3);
+  matrix_t m_b = matrix_ones(3, 2);
+  matrix_t m_c = matrix_multiply(m_a, m_b);
+  matrix_print(stdout, &m_c);
+  matrix_print_memory(stdout, &m_c);
+  matrix_free(m_a);
+  matrix_free(m_b);
+  matrix_free(m_c);
 }
