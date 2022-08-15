@@ -37,7 +37,7 @@ This repository contains basic programs written in languages that I have experie
 <details>
 <summary>JavaScript</summary>
 <ul>
-<li></li>
+<li><a href="JavaScript/Program-00">Program-00</a> - Rebuild GitHub with Tailwind CSS and React</li>
 </ul>
 </details>
 
