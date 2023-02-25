@@ -10,6 +10,14 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
     fi \
     && rm -f /tmp/reinstall-cmake.sh
 
+COPY ./install-gbenchmark.sh /tmp/
+
+RUN chmod +x /tmp/install-gbenchmark.sh && /tmp/install-gbenchmark.sh
+
+COPY ./install-gtest.sh /tmp/
+
+RUN chmod +x /tmp/install-gtest.sh && /tmp/install-gtest.sh
+
 # [Optional] Uncomment this section to install additional vcpkg ports.
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 
