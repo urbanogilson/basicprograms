@@ -4,7 +4,7 @@
 #include "kvdb.h"
 
 int main(int argc, char const *argv[]) {
-  std::cout << "kvdb clinet" << std::endl;
+  std::cout << "kvdb client" << std::endl;
 
   kvdb::Kvdb db();
 

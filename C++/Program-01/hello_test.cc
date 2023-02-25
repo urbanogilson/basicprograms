@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
+#include "kvdb.h"
+
 TEST(ServerTest, Connection) {
-  EXPECT_STRNE("hello", "world");
-  EXPECT_EQ(7 * 6, 42);
+  kvdb::Kvdb db("test");
+  EXPECT_STREQ("test", db.GetName().c_str());
 }

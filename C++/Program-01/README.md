@@ -9,11 +9,10 @@ Inspired by: [Implementing a Key-Value Store](https://codecapsule.com/2012/11/07
 ## Compiling
 
 ```bash
-$ mkdir build && cd build
-$ cmake ..
-$ cmake --build . # or just $make
-$ ./db # Run
-
+mkdir -p build && cd build
+cmake ..
+cmake --build . # or just $make
+./bin/db # Run
 ```
 
 ## To-Do

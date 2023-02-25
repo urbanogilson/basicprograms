@@ -8,6 +8,7 @@ class Kvdb {
  public:
   Kvdb(const std::string &name) : name_(name) {}
   ~Kvdb() {}
+  std::string GetName(void) { return name_; }
 
  private:
   std::string name_;
