@@ -8,8 +8,8 @@ int main(int argc, char const *argv[]) {
 
   std::cout << "kvdb" << std::endl;
 
-  kvdb::Server server;
-  server.Start(std::string("kvdb"), 8080);
+  auto server = kvdb::Server(1234);
+  server.StartAsync();
 
   return 0;
 }

@@ -6,9 +6,8 @@
 namespace kvdb {
 class Kvdb {
  public:
-  Kvdb(const std::string &name) : name_(name) {}
-  ~Kvdb() {}
-  std::string GetName(void) { return name_; }
+  Kvdb(const std::string &name) noexcept : name_(name) {}
+  ~Kvdb() noexcept {}
 
  private:
   std::string name_;

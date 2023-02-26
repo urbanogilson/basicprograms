@@ -4,15 +4,17 @@
 
 Implementing a Key-Value Store
 
-Inspired by: [Implementing a Key-Value Store](https://codecapsule.com/2012/11/07/ikvs-implementing-a-key-value-store-table-of-contents/)
+Inspired by: [Implementing a Key-Value Store](https://codecapsule.com/2012/11/07/ikvs-implementing-a-key-value-store-table-of-contents/), and [Build Your Own Redis with C/C++](https://build-your-own.org/redis/#table-of-contents).
 
 ## Compiling
 
 ```bash
-mkdir -p build && cd build
-cmake ..
-cmake --build . # or just $make
-./bin/db # Run
+cmake -H. -Bbuild -G "Unix Makefiles"
+cd build && make
+./bin/db # Run server
+./bin/client set key value # Run client
+./bin/client get key  # Run client
+./bin/client del key  # Run client
 ```
 
 ## To-Do
