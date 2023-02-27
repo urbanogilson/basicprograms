@@ -1,4 +1,6 @@
+// #define NDEBUG 0
 #include <arpa/inet.h>
+#include <glog/logging.h>
 #include <netdb.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -14,40 +16,57 @@
 
 class Client : public kvdb::Server {
  private:
-  int _port;
-  static const size_t _K_MAX_MSG = 4096;
+  int _port;  // TODO: Move to config
+  int _fd;
+  static const size_t _K_MAX_MSG = 4096;  // TODO: Move to config
 
  public:
-  Client(const int port) : _port(port) {}
+  Client(const int port) : _port(port), _fd(-1) { OpenConnection(); }
 
-  int Open(void) {
-    int fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (fd < 0) {
-      std::cerr << "socket()\n";
-      return -1;
-    }
-    std::cout << "fd(" << fd << ")\n";
+  ~Client() { Close(); };
 
-    struct sockaddr_in addr = {
-        .sin_family = AF_INET,
-        .sin_port = ntohs(_port),
-        .sin_addr = {.s_addr = ntohl(INADDR_LOOPBACK)} /*127.0.0.1*/};
+  int GetFd(void) noexcept { return _fd; };
 
-    int rv = connect(fd, (const struct sockaddr *)&addr, sizeof(addr));
-    if (rv) {
-      std::cout << "connect()\n";
-      return -1;
-    }
+  int Socket(void) {
+    _fd = socket(AF_INET, SOCK_STREAM, PF_UNSPEC);
 
-    return fd;
+    CHECK_NE(_fd, -1) << "socket()";
+
+    return _fd;
   }
 
-  void Close(int fd) { close(fd); }
+  int Connect(void) {
+    struct sockaddr_in addr = {
+        .sin_family = AF_INET,
+        .sin_port = ntohs(_port),  // TODO: move to param
+        .sin_addr = {.s_addr = ntohl(
+                         INADDR_LOOPBACK)} /*127.0.0.1*/  // TODO: move to param
+    };
 
-  static int ReadResponse(const int fd) {
+    int code = connect(_fd, (const struct sockaddr *)&addr, sizeof(addr));
+
+    CHECK_NE(code, -1) << "connect()";
+
+    return code;
+  }
+
+  void OpenConnection(void) {
+    Socket();
+    Connect();
+  }
+
+  void Close(void) {
+    close(_fd);
+    _fd = -1;
+  }
+
+  int ReadResponse(void) {
+    CHECK_NE(_fd, -1) << "Invalid connection";
+
     char rbuf[4 + _K_MAX_MSG + 1];
+
     errno = 0;
-    int err = ReadFull(fd, rbuf, 4);
+    int err = ReadFull(_fd, rbuf, 4);
     if (err) {
       if (errno == 0)
         std::cerr << "EOF\n";
@@ -59,39 +78,27 @@ class Client : public kvdb::Server {
 
     int len = 0;
     memcpy(&len, rbuf, 4);
-    if (len > _K_MAX_MSG) {
-      std::cerr << "too long\n";
-      return -1;
-    }
+    CHECK_GE(len, 4) << "Bad response";
+    CHECK_LT(len, _K_MAX_MSG) << "Too long";
 
-    err = ReadFull(fd, &rbuf[4], len);
-    if (err) {
-      std::cerr << "read error ()\n";
-      return err;
-    }
+    err = ReadFull(_fd, &rbuf[4], len);
+    CHECK_EQ(err, 0) << "Too long";
 
     int rescode = 0;
-    if (len < 4) {
-      std::cerr << "bad response\n";
-      return -1;
-    }
-
     memcpy(&rescode, &rbuf[4], 4);
 
     printf("server says: [%u] %.*s\n", rescode, len - 4, &rbuf[8]);
     return 0;
   }
 
-  static int SendRequest(const int fd, const std::vector<std::string> &cmd) {
+  int SendRequest(const std::vector<std::string> &cmd) {
+    CHECK_NE(_fd, -1) << "Invalid connection";
+
     int len = 4;
+    for (auto &s : cmd) len += 4 + s.size();
 
-    for (auto &s : cmd) {
-      len += 4 + s.size();
-    }
-
-    if (len > _K_MAX_MSG) {
-      return -1;
-    }
+    CHECK_LT(len, _K_MAX_MSG)
+        << "Key and value reached max size: " << _K_MAX_MSG;
 
     // 4 bytes header
     char wbuf[4 + _K_MAX_MSG];
@@ -99,41 +106,35 @@ class Client : public kvdb::Server {
     int n = cmd.size();
     memcpy(&wbuf[4], &n, 4);
 
-    size_t cur = 8;
+    // body
+    size_t cursor = 8;
     for (auto &s : cmd) {
-      int p = s.size();
-      memcpy(&wbuf[cur], &p, 4);
-      memcpy(&wbuf[cur + 4], s.data(), s.size());
-      cur += 4 + s.size();
+      int size = s.size();
+      memcpy(&wbuf[cursor], &size, 4);
+      memcpy(&wbuf[cursor + 4], s.data(), size);
+      cursor += 4 + size;
     }
-    return WriteFull(fd, wbuf, 4 + len);
+
+    return WriteFull(_fd, wbuf, 4 + len);
   }
-  ~Client(){};
 };
 
 int main(int argc, char const *argv[]) {
-  std::cout << "kvdb client" << std::endl;
+  FLAGS_logtostdout = true;
+  FLAGS_colorlogtostdout = true;
+  google::InitGoogleLogging(argv[0]);
+
+  LOG(INFO) << "kvdb client";
 
   auto client = Client(1234);
 
-  int fd = client.Open();
-
   std::vector<std::string> cmd;
   for (int i = 1; i < argc; ++i) {
-    std::cout << argv[i] << std::endl;
     cmd.push_back(argv[i]);
   }
-  int32_t err = client.SendRequest(fd, cmd);
-  if (err) {
-    goto L_DONE;
-  }
-  err = client.ReadResponse(fd);
-  if (err) {
-    goto L_DONE;
-  }
 
-L_DONE:
-  client.Close(fd);
+  client.SendRequest(cmd);
+  client.ReadResponse();
 
   return 0;
 }

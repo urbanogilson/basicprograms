@@ -10,7 +10,10 @@ Inspired by: [Implementing a Key-Value Store](https://codecapsule.com/2012/11/07
 
 ```bash
 cmake -H. -Bbuild -G "Unix Makefiles"
-cd build && make
+cmake --build build
+
+export LD_LIBRARY_PATH=/usr/local/lib
+
 ./bin/db # Run server
 ./bin/client set key value # Run client
 ./bin/client get key  # Run client

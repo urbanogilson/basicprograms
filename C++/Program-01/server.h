@@ -29,7 +29,6 @@ class Server {
   static const size_t K_MAX_MSG = 4096;
   Server(const int port);
   Server(void);
-  void Start(void);
   void StartAsync(void);
   static void Die(const char *message);
   static void DoSomething(const int fd);
