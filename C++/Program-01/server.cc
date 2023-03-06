@@ -1,57 +1,34 @@
 #include "server.h"
 
-#include <arpa/inet.h>
-#include <fcntl.h>
-#include <netdb.h>
-#include <poll.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#include <cassert>
-#include <cstring>
-#include <iostream>
-#include <regex>
-#include <vector>
-
-#include "kvdb.h"
-
 namespace kvdb {
 
 Server::Server(const int port) : _port(port) {}
-Server::Server(void) : _port(1234) {}
 
 void Server::StartAsync(void) {
-  int val = 1;
-  int fd = socket(AF_INET, SOCK_STREAM, 0);
+  int fd = socket(AF_INET, SOCK_STREAM, PF_UNSPEC);
+  // LOG_IF_S(ERROR, _fd == -1) << "socket()";
 
-  if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)) == -1) {
-    Die("setsockopt()");
-    return;
-  }
+  int optval = 1;
+  int returnValue =
+      setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+  // LOG_IF_S(ERROR, fd == -1) << "setsockoptsocket()";
 
-  struct sockaddr_in addr = {
-      .sin_family = AF_INET,
-      .sin_port = ntohs(_port),
-      .sin_addr = {.s_addr = ntohl(0) /*wildcard address 0.0.0.0*/}};
+  struct sockaddr_in addr = {.sin_family = AF_INET,
+                             .sin_port = ntohs(_port),
+                             .sin_addr = {.s_addr = ntohl(INADDR_ANY)}};
 
-  int rv = bind(fd, (const sockaddr *)&addr, sizeof(addr));
-  if (rv) {
-    Die("bind()");
-    return;
-  }
+  returnValue = bind(fd, (const sockaddr *)&addr, sizeof(addr));
+  // LOG_IF_S(ERROR, returnValue) << "bind()";
 
-  rv = listen(fd, SOMAXCONN);
-  if (rv) {
-    Die("listen()");
-    return;
-  }
+  returnValue = listen(fd, SOMAXCONN);
+  // LOG_IF_S(ERROR, returnValue) << "listen()";
+
+  // set the listen fd to nonblocking mode
+  FdSetNonBlocking(fd);
 
   // a map of all client connections, keyed by fd
   std::vector<Connection *> fdConnections;
 
-  // set the listen fd to nonblocking mode
-  FdSetNonBlocking(fd);
   std::vector<struct pollfd> pollArgs;
 
   for (;;) {
@@ -103,38 +80,6 @@ void Server::StartAsync(void) {
       (void)AcceptNewConnection(fdConnections, fd);
     }
   }
-}
-
-int Server::ReadFull(const int fd, char *buf, size_t n) {
-  while (n > 0) {
-    ssize_t rv = read(fd, buf, n);
-    if (rv <= 0) {
-      std::cerr << "error, unexpected EOF\n";
-      return -1;
-    }
-
-    assert((size_t)rv <= n);
-    n -= (size_t)rv;
-    buf += rv;
-  }
-
-  return 0;
-}
-int Server::WriteFull(const int fd, char *buf, size_t n) {
-  while (n > 0) {
-    ssize_t rv = write(fd, buf, n);
-
-    if (rv <= 0) {
-      std::cerr << "error write() " << rv << " \n";
-      return -1;
-    }
-
-    assert((size_t)rv <= n);
-    n -= (size_t)rv;
-    buf += rv;
-  }
-
-  return 0;
 }
 
 int Server::OneRequest(const int fd) {
@@ -194,18 +139,13 @@ void Server::DoSomething(const int fd) {
 void Server::FdSetNonBlocking(const int fd) {
   errno = 0;
   int flags = fcntl(fd, F_GETFL, 0);
-  if (errno) {
-    Die("fcntl error");
-    return;
-  }
+  // LOG_IF_S(ERROR, errno) << "fcntl()";
 
   flags |= O_NONBLOCK;
 
   errno = 0;
   (void)fcntl(fd, F_SETFL, flags);
-  if (errno) {
-    Die("fcntl error");
-  }
+  // LOG_IF_S(ERROR, errno) << "fcntl()";
 }
 
 void Server::Die(const char *message) {

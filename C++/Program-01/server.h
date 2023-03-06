@@ -2,25 +2,30 @@
 #define KVDB_SERVER_H_
 
 #include <arpa/inet.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <poll.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-#include <string>
+#include <cassert>
+#include <cstring>
+#include <iostream>
+#include <regex>
 #include <unordered_map>
 #include <vector>
 
+#include "hash.h"
+#include "kvdb.h"
+
 namespace kvdb {
+
 struct Connection;
 
 enum class State;
 
-enum class Result {
-  OK,
-  ERROR,
-  NX,
-};
-
-static std::unordered_map<std::string, std::string> _map;
-
-class Server {
+class Server : public kvdb::Kvdb {
  private:
   int _port;
   static const size_t _K_MAX_MSG = 4096;
@@ -39,8 +44,6 @@ class Server {
   static void ConnectionIo(Connection *connection);
   static int AcceptNewConnection(std::vector<Connection *> &fdConnections,
                                  const int fd);
-  static int WriteFull(const int fd, char *buf, size_t n);
-  static int ReadFull(const int fd, char *buf, size_t n);
   static void StateResponse(Connection *connection);
   static void StateRequest(Connection *connection);
   static bool TryFillBuffer(Connection *connection);
