@@ -23,3 +23,7 @@ target_link_libraries(${PROJECT_NAME}_server server kvdb hash)
 
 add_executable(kvdb_client kvdb_client.cc)
 target_link_libraries(kvdb_client client kvdb)
+
+enable_testing()
+
+add_subdirectory(tests)
