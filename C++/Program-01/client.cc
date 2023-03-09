@@ -14,7 +14,7 @@ namespace kvdb
   {
     _fd = _socket.Socket(AF_INET, SOCK_STREAM, PF_UNSPEC);
 
-    // LOG_IF_S(ERROR, _fd == -1) << "socket()";
+    CHECK_NE(_fd, -1) << "socket()";
 
     return _fd;
   }
@@ -30,7 +30,7 @@ namespace kvdb
 
     int code = _socket.Connect(_fd, (const struct sockaddr *)&addr, sizeof(addr));
 
-    // LOG_IF_S(ERROR, code == -1) << "connect()";
+    LOG_IF(ERROR, code == -1) << "connect()";
 
     return code;
   }
@@ -49,7 +49,7 @@ namespace kvdb
 
   int Client::ReadResponse(void)
   {
-    // LOG_IF_S(ERROR, _fd == -1) << "invalid connection";
+    LOG_IF(ERROR, _fd == -1) << "invalid connection";
 
     char rbuf[4 + _K_MAX_MSG + 1];
 
@@ -67,11 +67,11 @@ namespace kvdb
 
     int len = 0;
     memcpy(&len, rbuf, 4);
-    // LOG_IF_S(ERROR, len < 4) << "bad response";
-    // LOG_IF_S(ERROR, len > _K_MAX_MSG) << "too long";
+    LOG_IF(ERROR, len < 4) << "bad response";
+    LOG_IF(ERROR, len > _K_MAX_MSG) << "too long";
 
     err = ReadFull(_fd, &rbuf[4], len);
-    // LOG_IF_S(ERROR, err == -1) << "too long";
+    LOG_IF(ERROR, err == -1) << "too long";
 
     int rescode = 0;
     memcpy(&rescode, &rbuf[4], 4);
@@ -84,14 +84,13 @@ namespace kvdb
 
   int Client::SendRequest(const std::vector<std::string> &cmd)
   {
-    // LOG_IF_S(ERROR, _fd == -1) << "invalid connection";
+    LOG_IF(ERROR, _fd == -1) << "invalid connection";
 
     int len = 4;
     for (auto &s : cmd)
       len += 4 + s.size();
 
-    // LOG_IF_S(ERROR, len > _K_MAX_MSG) << "Key and value reached max size: " <<
-    // _K_MAX_MSG;
+    LOG_IF(ERROR, len > _K_MAX_MSG) << "Key and value reached max size: " << _K_MAX_MSG;
 
     // 4 bytes header
     char wbuf[4 + _K_MAX_MSG];

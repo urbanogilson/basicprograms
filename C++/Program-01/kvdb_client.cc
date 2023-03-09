@@ -1,14 +1,17 @@
 #include <string>
 #include <vector>
+#include <glog/logging.h>
 
 #include "client.h"
 #include "tcp_socket.h"
 
 int main(int argc, char **argv)
 {
-  int port = 1234; // TODO: GET from argv
+  FLAGS_logtostderr = 1;
+  google::InitGoogleLogging(argv[0]);
 
-  // LOG_S(INFO) << "kvdb client";
+  int port = 1234; // TODO: GET from argv (Google flags?)
+  LOG(INFO) << "Running on port " << port;
 
   auto socket = kvdb::TcpSocket();
   auto client = kvdb::Client(socket, port);

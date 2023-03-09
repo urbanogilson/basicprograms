@@ -32,8 +32,14 @@ TEST(Client, init)
   kvdb::Client(mock_socket, port);
 }
 
+void YourFailureFunction()
+{
+  LOG(INFO) << "Testing";
+}
+
 int main(int argc, char **argv)
 {
   testing::InitGoogleTest(&argc, argv);
+  // google::InstallFailureFunction((google::logging_fail_func_t)&YourFailureFunction);
   return RUN_ALL_TESTS();
 }

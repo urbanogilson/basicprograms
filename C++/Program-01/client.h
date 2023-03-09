@@ -1,6 +1,8 @@
 #ifndef KVDB_CLIENT_H_
 #define KVDB_CLIENT_H_
 
+#include <glog/logging.h>
+
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <sys/socket.h>
