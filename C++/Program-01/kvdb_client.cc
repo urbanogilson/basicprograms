@@ -7,7 +7,8 @@
 
 int main(int argc, char **argv)
 {
-  FLAGS_logtostderr = 1;
+  FLAGS_alsologtostderr = true;
+  FLAGS_colorlogtostderr = true;
   google::InitGoogleLogging(argv[0]);
 
   int port = 1234; // TODO: GET from argv (Google flags?)

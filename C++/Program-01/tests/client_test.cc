@@ -17,29 +17,30 @@ using testing::AtLeast;
 using testing::NotNull;
 using testing::Return;
 
-TEST(Client, init)
+TEST(Client, on_socket_success)
 {
+  int port = 1234;
   MockSocket mock_socket;
   EXPECT_CALL(mock_socket, Socket(AF_INET, SOCK_STREAM, PF_UNSPEC))
-      .Times(2)
-      .WillOnce(Return(3))
-      .WillOnce(Return(-1));
-  EXPECT_CALL(mock_socket, Connect(_, NotNull(), 16)).Times(2);
-  EXPECT_CALL(mock_socket, Close(_)).Times(2);
-
-  int port = 1234;
-  kvdb::Client(mock_socket, port);
+      .Times(1)
+      .WillOnce(Return(2));
+  EXPECT_CALL(mock_socket, Connect(_, NotNull(), 16)).Times(1);
+  EXPECT_CALL(mock_socket, Close(_)).Times(1);
   kvdb::Client(mock_socket, port);
 }
 
-void YourFailureFunction()
+TEST(Client, on_socket_error)
 {
-  LOG(INFO) << "Testing";
+  int port = 1234;
+  MockSocket mock_socket;
+  EXPECT_CALL(mock_socket, Socket(AF_INET, SOCK_STREAM, PF_UNSPEC)).WillRepeatedly(Return(-1));
+  ASSERT_DEATH(kvdb::Client(mock_socket, port), "_fd != -1 \\(-1 vs\\. -1\\) socket\\(\\)");
 }
 
 int main(int argc, char **argv)
 {
+  FLAGS_alsologtostderr = true;
+  FLAGS_colorlogtostderr = true;
   testing::InitGoogleTest(&argc, argv);
-  // google::InstallFailureFunction((google::logging_fail_func_t)&YourFailureFunction);
   return RUN_ALL_TESTS();
 }
