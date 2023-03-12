@@ -22,16 +22,16 @@ FetchContent_MakeAvailable(glog)
 
 add_library(kvdb kvdb.cc)
 
-add_library(server server.cc)
-
 add_library(client client.cc)
+target_link_libraries(client glog::glog)
 
 add_library(hash hash.cc)
+target_link_libraries(hash glog::glog)
+
+add_library(server server.cc)
 
 add_library(status status.cc)
-target_link_libraries(server status)
-
-target_link_libraries(client glog::glog)
+target_link_libraries(server status glog::glog)
 
 add_executable(${PROJECT_NAME}_server kvdb_server.cc)
 target_link_libraries(${PROJECT_NAME}_server server kvdb hash)
