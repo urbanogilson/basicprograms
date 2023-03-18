@@ -1,97 +1,51 @@
 #include "hash.h"
 
 namespace kvdb {
-Hash::Hash(size_t size) {
+Hash::Hash(ssize_t size) : _mask(size - 1), _size(0) {
   CHECK((size > 0) && ((size & (size - 1)) == 0))
       << "size must be a positive and power of two";
-  _htab.tab = new struct Node *[size]();
-  _htab.mask = size - 1;
+
+  _chain = std::vector<std::forward_list<struct Node>>(size);
 }
 
-Hash::~Hash() { delete[] _htab.tab; }
+Hash::~Hash() {}
 
-struct Node **Hash::Tab(void) const { return _htab.tab; };
-
-size_t Hash::Size(void) const { return _htab.size; };
-
-size_t Hash::Mask(void) const { return _htab.mask; };
-
-void Hash::Insert(struct Node *node) {
-  size_t position = node->code & _htab.mask;
-  struct Node *next = _htab.tab[position];
-  node->next = next;
-  _htab.tab[position] = node;
-  _htab.size++;
+void Hash::Insert(Node &node) {
+  _chain[_Position(node)].push_front(node);
+  _size++;
 }
 
-void Hash::Traverse(std::function<void(struct Node *)> func) {
-  if (!_htab.tab) return;
-
-  for (size_t size = 0; size < _htab.size; size++) func(_htab.tab[size]);
+void Hash::Insert(const std::string &key, const std::string &value) {
+  auto node = Node{.key = key, .value = value};
+  _chain[_Position(node)].push_front(node);
+  _size++;
 }
 
-struct Node **Hash::Lookup(struct Node *key,
-                           bool (*cmp)(struct Node *, struct Node *)) {
-  if (!_htab.tab) return nullptr;
-
-  size_t position = key->code & _htab.mask;
-  struct Node **from = &_htab.tab[position];
-
-  while (*from) {
-    if (cmp(*from, key)) return from;
-
-    from = &(*from)->next;
-  }
-
-  return nullptr;
+std::optional<std::forward_list<Node>::iterator> Hash::Find(const Node &node) {
+  auto chain = _chain[_Position(node)];
+  auto result = std::find(std::begin(chain), std::end(chain), node);
+  if (result != std::end(chain)) return result;
+  return std::nullopt;
 }
 
-struct Node *Hash::Detach(struct Node **from) {
-  struct Node *node = *from;
-  *from = (*from)->next;
-  _htab.size--;
-  return node;
+std::optional<std::forward_list<Node>::iterator> Hash::Find(
+    const std::string &key) {
+  return Find(Node{.key = key});
 }
 
-struct Node **Map::Lookup(struct Map *map, struct Node *key,
-                          bool (*cmp)(struct Node *, struct Node *)) {
-  HelpResizing();
-  struct Node **from = _ht1.Lookup(key, cmp);
-  if (!from) {
-    from = _ht2.Lookup(key, cmp);
-  }
+std::optional<std::string> Hash::Get(const std::string &key) {
+  auto result = Find(key);
 
-  return from;
+  if (result.has_value()) return result.value()->value;
+
+  return std::nullopt;
 }
-void Map::Insert(struct Map *map, struct Node *node) {
-  if (!_ht1.Tab()) {
-    _ht1 = Hash(4);
-  }
-  _ht1.Insert(node);
 
-  if (!_ht2.Tab()) {
-    // check whether we need to resize
-    size_t load_factor = _ht1.Size() / (_ht1.Mask() + 1);
-    if (load_factor >= _k_max_load_factor) {
-      StartResizing();
-    }
-  }
-  HelpResizing();
+int Hash::Delete(const std::string &key) {
+  auto chain = _chain[_Position(key)];
+  auto n = chain.remove(Node{.key = key});
+  _size -= n;
+  return n;
 }
-struct Node *Map::Pop(struct Map *map, struct Node *key,
-                      bool (*cmp)(struct Node *, struct Node *)) {
-  HelpResizing();
 
-  struct Node **from = _ht1.Lookup(key, cmp);
-  if (from) {
-    return _ht1.Detach(from);
-  }
-
-  from = _ht2.Lookup(key, cmp);
-  if (from) {
-    return _ht2.Detach(from);
-  }
-
-  return nullptr;
-}
 }  // namespace kvdb
