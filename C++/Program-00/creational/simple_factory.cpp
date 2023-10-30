@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 class Door {
  public:
@@ -22,18 +23,14 @@ class WoodenDoor : public Door {
 
 class DoorFactory {
  public:
-  static Door *makeDoor(float width, float height) {
-    return new WoodenDoor(width, height);
+  static std::shared_ptr<Door> makeDoor(float width, float height) {
+    return std::make_shared<WoodenDoor>(WoodenDoor(width, height));
   }
 };
 
 int main() {
-  Door *door = DoorFactory::makeDoor(1.5f, 2.3f);
+  auto door = DoorFactory::makeDoor(1.5f, 2.3f);
 
   std::cout << "Width: " << door->getWidth() << std::endl;
   std::cout << "Height: " << door->getHeight() << std::endl;
-
-  delete door;
-
-  return 0;
 }

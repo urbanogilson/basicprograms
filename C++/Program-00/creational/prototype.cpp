@@ -7,7 +7,7 @@ class Sheep {
   std::string m_Category;
 
  public:
-  Sheep(std::string name, std::string category = "Mountain Sheep")
+  Sheep(const std::string &name, const std::string &category = "Mountain Sheep")
       : m_Name(name), m_Category(category) {}
 
   void setName(std::string name) { m_Name = name; }
@@ -19,15 +19,13 @@ class Sheep {
   std::string getCategory(void) const { return m_Category; }
 };
 
-int main() {
-  Sheep original = Sheep("Jolly");
+int main(void) {
+  auto original = Sheep("Jolly");
   std::cout << original.getName() << std::endl;
   std::cout << original.getCategory() << std::endl;
 
-  Sheep clone = original;
+  auto clone = original;
   clone.setName("Dolly");
   std::cout << clone.getName() << std::endl;
   std::cout << clone.getCategory() << std::endl;
-
-  return 0;
 }

@@ -9,13 +9,13 @@ class Interviewer {
 class Developer : public Interviewer {
  public:
   void askQuestions(void) override {
-    std::cout << "Asking about design patterns!" << std::endl;
+    std::cout << "Asking about design patterns!\n";
   }
 };
 
 class CommunityExecutive : public Interviewer {
   void askQuestions(void) override {
-    std::cout << "Asking about community building!" << std::endl;
+    std::cout << "Asking about community building!\n";
   }
 };
 
@@ -42,12 +42,10 @@ class MarketingManager : public HiringManager {
   }
 };
 
-int main() {
-  DevelopmentManager devManager = DevelopmentManager();
-  devManager.takeInterview();  // Output: Asking about design patterns
+int main(void) {
+  auto devManager = DevelopmentManager();
+  devManager.takeInterview();  // Output: Asking about design patterns!
 
-  MarketingManager marketingManager = MarketingManager();
-  marketingManager.takeInterview();  // Output
-
-  return 0;
+  auto marketingManager = MarketingManager();
+  marketingManager.takeInterview();  // Output: Asking about community building!
 }

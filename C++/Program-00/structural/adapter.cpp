@@ -30,17 +30,15 @@ class WildDogAdapter : public Lion {
   std::shared_ptr<WildDog> m_Dog;
 
  public:
-  WildDogAdapter(std::shared_ptr<WildDog> dog) : m_Dog(dog) {}
+  WildDogAdapter(const std::shared_ptr<WildDog> &dog) : m_Dog(dog) {}
 
   void roar(void) override { m_Dog->bark(); }
 };
 
 int main(void) {
-  std::shared_ptr<WildDog> wildDog = std::make_shared<WildDog>();
-  WildDogAdapter wildDogAdapter = WildDogAdapter(wildDog);
+  auto wildDog = std::make_shared<WildDog>();
+  auto wildDogAdapter = WildDogAdapter(wildDog);
 
   Hunter hunter = Hunter();
   hunter.hunt(wildDogAdapter);
-
-  return 0;
 }

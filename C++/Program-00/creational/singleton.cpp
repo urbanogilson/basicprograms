@@ -16,10 +16,8 @@ class President {
 };
 
 int main() {
-  std::shared_ptr<President> president1 = President::getInstance();
-  std::shared_ptr<President> president2 = President::getInstance();
+  auto president1 = President::getInstance();
+  auto president2 = President::getInstance();
 
-  std::cout << (president1 == president2) << std::endl;
-
-  return 0;
+  std::cout << std::boolalpha << (president1 == president2) << std::endl;
 }

@@ -32,10 +32,7 @@ class About : public WebPage {
   std::shared_ptr<Theme> m_Theme;
 
  public:
-  About(std::shared_ptr<Theme> theme)
-      : m_Theme(theme){
-
-        };
+  About(std::shared_ptr<Theme> theme) : m_Theme(theme){};
 
   std::string getContent() { return "About page in " + m_Theme->getColor(); };
 };
@@ -54,13 +51,12 @@ class Careers : public WebPage {
 };
 
 int main(void) {
-  std::shared_ptr<DarkTheme> darkTheme = std::make_shared<DarkTheme>();
+  auto darkTheme = std::make_shared<DarkTheme>();
 
-  About about = About(darkTheme);
-  Careers careers = Careers(darkTheme);
+  auto about = About(darkTheme);
+  auto careers = Careers(darkTheme);
 
   std::cout << about.getContent() << std::endl;  // "About page in Dark Black";
   std::cout << careers.getContent()
             << std::endl;  // "Careers page in Dark Black";
-  return 0;
 }

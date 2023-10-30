@@ -5,37 +5,37 @@ class Burger;
 
 class BurgerBuilder {
  public:
-  int size;
+  int m_Size;
 
-  bool cheese;
-  bool pepperoni;
-  bool lettuce;
-  bool tomato;
+  bool m_Cheese;
+  bool m_Pepperoni;
+  bool m_Lettuce;
+  bool m_Tomato;
 
   BurgerBuilder(int size)
-      : size(size),
-        cheese(false),
-        pepperoni(false),
-        lettuce(false),
-        tomato(false) {}
+      : m_Size(size),
+        m_Cheese(false),
+        m_Pepperoni(false),
+        m_Lettuce(false),
+        m_Tomato(false) {}
 
   BurgerBuilder &addCheese(void) {
-    cheese = true;
+    m_Cheese = true;
     return *this;
   }
 
   BurgerBuilder &addPepperoni(void) {
-    pepperoni = true;
+    m_Pepperoni = true;
     return *this;
   }
 
   BurgerBuilder &addLettuce(void) {
-    lettuce = true;
+    m_Lettuce = true;
     return *this;
   }
 
   BurgerBuilder &addTomato(void) {
-    tomato = true;
+    m_Tomato = true;
     return *this;
   }
 
@@ -44,22 +44,20 @@ class BurgerBuilder {
 
 class Burger {
  protected:
-  bool cheese;
-  bool pepperoni;
-  bool lettuce;
-  bool tomato;
+  bool m_Cheese;
+  bool m_Pepperoni;
+  bool m_Lettuce;
+  bool m_Tomato;
 
  public:
   Burger(BurgerBuilder *builder)
-      : cheese(builder->cheese),
-        pepperoni(builder->pepperoni),
-        lettuce(builder->lettuce),
-        tomato(builder->tomato) {}
+      : m_Cheese(builder->m_Cheese),
+        m_Pepperoni(builder->m_Pepperoni),
+        m_Lettuce(builder->m_Lettuce),
+        m_Tomato(builder->m_Tomato) {}
 };
 
 int main(void) {
-  std::shared_ptr<Burger> burger =
+  auto burger =
       BurgerBuilder(14).addPepperoni().addLettuce().addTomato().build();
-
-  return 0;
 }
