@@ -13,3 +13,5 @@
 | [Program-08](Program-08) | [Beej's Guide to Networking Programming](https://beej.us/guide/bgnet/) (Code) |
 | [Program-09](Program-09) | Custom Fixed-Size Memory Allocation for Structs |
 | [Program-10](Program-10) | Filesystem in Userspace (FUSE) |
+| [Program-11](Program-11) | SDL2 |
+| [Program-12](Program-12) | Time travel debugging (gdb) |

@@ -1,16 +1,16 @@
 # Basic Programs
 
+This repository contains basic programs written in languages that I have experience or am learning.
+
 "_A complex system that works is invariably found to have evolved from a simple system that worked. The inverse proposition also appears to be true: A complex system designed from scratch never works and cannot be made to work. You have to start over, beginning with a working simple system._" - John Gall: Systemantics: How Systems Really Work and How They Fail
 
 "_Easy is what you know_" ~ Unknown
-
-This repository contains basic programs written in languages that I have experience or am learning.
 
 ## Badges
 
 ![GitHub](https://img.shields.io/github/license/urbanogilson/basicprograms)
 ![GitHub language count](https://img.shields.io/github/languages/count/urbanogilson/basicprograms)
-![Lines of code](https://img.shields.io/tokei/lines/github/urbanogilson/basicprograms)
+![GitHub repo size](https://img.shields.io/github/repo-size/urbanogilson/basicprograms)
 
 ## Problems
 
@@ -27,6 +27,9 @@ This repository contains basic programs written in languages that I have experie
 <li><a href="C/Program-07">Program-07</a> - <a href="https://en.wikipedia.org/wiki/Hash_table">Hash table</a></li>
 <li><a href="C/Program-08">Program-08</a> - <a href="https://beej.us/guide/bgnet/">Beej's Guide to Networking Programming</a> (Code)</li>
 <li><a href="C/Program-09">Program-09</a> - Custom Fixed-Size Memory Allocation for Structs</li>
+<li><a href="C/Program-10">Program-10</a> - Filesystem in Userspace (FUSE)</li>
+<li><a href="C/Program-10">Program-11</a> - SDL2</li>
+<li><a href="C/Program-10">Program-12</a> - Time travel debugging (gdb)</li>
 </ul>
 </details>
 
