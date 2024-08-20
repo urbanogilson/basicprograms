@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+#app {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+label {
+    margin-right: 10px;
+}
+
+.rate-inputs, .converter-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rate-inputs input, .converter-inputs input, 
+.rate-inputs select, .converter-inputs select {
+    flex: 1;
+    padding: 10px;
+    margin: 5px 0;
+    min-width: 120px;
+}
+
+button {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+}
+
+#conversion-result {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#currency-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#filter-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+#market-status {
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 5px;
+    font-weight: bold;
+}

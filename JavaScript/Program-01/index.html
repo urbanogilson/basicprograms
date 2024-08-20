@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>Currency Converter</h1>
+
+        <div id="market-status">Loading market status...</div>
+        <div id="alert-banner"
+            style="display: none; background: yellow; padding: 10px; margin-bottom: 10px; font-weight: bold;"></div>
+
+        <div id="rate-management">
+            <h2>Add New Currency Rate</h2>
+            <div class="rate-inputs">
+                <label id="target-currency-label" for="target-currency">Target Currency:</label>
+                <input type="text" id="target-currency" placeholder="Target Currency (e.g., DKK)">
+                <label for="rate">Rate:</label>
+                <input type="number" id="rate" placeholder="Rate">
+                <button id="add-rate-btn">Add Rate</button>
+            </div>
+        </div>
+
+        <h2>Set Currency Alert</h2>
+        <div class="converter-inputs">
+            <label for="alert-from-currency">From: </label>
+            <select id="alert-from-currency"></select>
+            <label for="alert-rate">Alert When Rate Reaches: </label>
+            <input type="text" id="alert-rate" placeholder="Enter target rate">
+            <button id="set-alert-btn">Set Alert</button>
+            <div id="alert-status"></div>
+        </div>
+
+        <div id="all-rates">
+            <h2>All Rates</h2>
+            <input type="text" id="filter-input" placeholder="Filter by currency or rate">
+            <ul id="currency-list"></ul>
+        </div>
+
+        <div id="currency-converter">
+            <h2>Convert Currency</h2>
+            <div class="converter-inputs">
+                <label for="from-currency">From:</label>
+                <select id="from-currency"></select>
+                <label for="to-currency">To:</label>
+                <select id="to-currency"></select>
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" placeholder="Amount">
+                <button id="convert-btn">Convert</button>
+            </div>
+            <p id="conversion-result"></p>
+        </div>
+
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
