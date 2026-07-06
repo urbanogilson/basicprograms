@@ -18,11 +18,19 @@ app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (_req.method === 'OPTIONS') {
+    res.sendStatus(204);
+    return;
+  }
   next();
 });
 
 app.get('/api', (_req, res) => {
   res.send({ message: 'Welcome to api!' });
+});
+
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' });
 });
 
 app.get('/api/agents', async (_req, res) => {

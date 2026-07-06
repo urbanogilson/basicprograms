@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Agent {
   id: number;
@@ -11,7 +12,7 @@ export interface Agent {
 
 @Injectable({ providedIn: 'root' })
 export class AgentService {
-  private readonly apiUrl = 'http://localhost:3333/api/agents';
+  private readonly apiUrl = `${environment.apiUrl}/agents`;
 
   constructor(private http: HttpClient) {}
 
