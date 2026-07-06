@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { AgentsComponent } from './agents/agents.component';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [AgentsComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  protected title = 'app';
-}
+export class App {}

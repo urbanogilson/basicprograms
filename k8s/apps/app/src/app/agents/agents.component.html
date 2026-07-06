@@ -1,0 +1,10 @@
+<div class="agents-page">
+  <h1>Agents</h1>
+  <div class="agents-grid">
+    <div class="agent-card" *ngFor="let agent of agents">
+      <h2>{{ agent.name }}</h2>
+      <p>{{ agent.description }}</p>
+    </div>
+  </div>
+  <p *ngIf="agents.length === 0" class="empty">No agents found.</p>
+</div>
