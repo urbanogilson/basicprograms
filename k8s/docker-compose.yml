@@ -42,7 +42,7 @@ services:
       dockerfile: apps/app/Dockerfile
     image: agents-app
     ports:
-      - "4200:80"
+      - "4200:8080"
     depends_on:
       api:
         condition: service_healthy
