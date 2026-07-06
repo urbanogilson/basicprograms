@@ -37,3 +37,7 @@ h1 {
 .empty {
   color: #999;
 }
+
+.error {
+  color: #c0392b;
+}

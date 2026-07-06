@@ -1,10 +1,18 @@
 <div class="agents-page">
   <h1>Agents</h1>
-  <div class="agents-grid">
-    <div class="agent-card" *ngFor="let agent of agents">
-      <h2>{{ agent.name }}</h2>
-      <p>{{ agent.description }}</p>
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  } @else if (agents.length === 0) {
+    <p class="empty">No agents found.</p>
+  } @else {
+    <div class="agents-grid">
+      @for (agent of agents; track agent.id) {
+        <div class="agent-card">
+          <h2>{{ agent.name }}</h2>
+          <p>{{ agent.description }}</p>
+        </div>
+      }
     </div>
-  </div>
-  <p *ngIf="agents.length === 0" class="empty">No agents found.</p>
+  }
 </div>
