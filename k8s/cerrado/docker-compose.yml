@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: cerrado-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cerrado
+      POSTGRES_PASSWORD: cerrado
+      POSTGRES_DB: cerrado
+    ports:
+      - '5432:5432'
+    volumes:
+      - cerrado-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cerrado -d cerrado']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/cerrado-api/Dockerfile
+      target: builder
+    container_name: cerrado-migrate
+    environment:
+      DATABASE_URL: postgresql://cerrado:cerrado@db:5432/cerrado?schema=public
+    command: >
+      sh -c "npx prisma migrate deploy --schema apps/cerrado-api/prisma/schema.prisma &&
+             npx prisma db seed"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+
+  cerrado-api:
+    build:
+      context: .
+      dockerfile: apps/cerrado-api/Dockerfile
+    container_name: cerrado-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://cerrado:cerrado@db:5432/cerrado?schema=public
+    ports:
+      - '3333:3333'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  cerrado-web:
+    build:
+      context: .
+      dockerfile: apps/cerrado-web/Dockerfile
+    container_name: cerrado-web
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    depends_on:
+      cerrado-api:
+        condition: service_started
+
+volumes:
+  cerrado-pgdata:

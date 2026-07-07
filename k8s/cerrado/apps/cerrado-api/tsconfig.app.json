@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "module": "commonjs",
+    "importHelpers": false,
+    "types": ["node", "express"]
+  },
+  "include": ["src/**/*.ts"]
+}

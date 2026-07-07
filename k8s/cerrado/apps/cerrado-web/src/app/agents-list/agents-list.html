@@ -1,0 +1,20 @@
+<section class="agents">
+  <h1>Agents</h1>
+
+  @if (loading()) {
+    <p class="state">Loading agents…</p>
+  } @else if (error()) {
+    <p class="state error">Could not load agents. Is the API running?</p>
+  } @else if (agents().length === 0) {
+    <p class="state">No agents yet.</p>
+  } @else {
+    <div class="grid">
+      @for (agent of agents(); track agent.id) {
+        <article class="card">
+          <h2>{{ agent.name }}</h2>
+          <p>{{ agent.description }}</p>
+        </article>
+      }
+    </div>
+  }
+</section>
