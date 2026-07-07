@@ -1,0 +1,18 @@
+Agents chart deployed successfully!
+
+API:  http://api.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.port }}/api/health
+App:
+{{- if .Values.ingress.enabled }}
+  https://{{ .Values.ingress.host }}
+{{- else }}
+  kubectl port-forward svc/app 8080:{{ .Values.app.port }} -n {{ .Values.namespace.name }}
+  then open http://localhost:8080
+{{- end }}
+
+Deploy with a pinned image tag:
+  helm upgrade --install agents ./deploy \
+    -f deploy/values.prod.yaml \
+    --set global.image.tag=$(git rev-parse --short HEAD) \
+    --set database.url="$DATABASE_URL"
+
+WARNING: never store real DATABASE_URL in values files.

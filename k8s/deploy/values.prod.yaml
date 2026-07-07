@@ -1,0 +1,20 @@
+# Production overrides — commit this file, but never put real secrets here.
+# Deploy with:
+#   helm upgrade --install agents ./deploy \
+#     -f deploy/values.prod.yaml \
+#     --set global.image.tag=$(git rev-parse --short HEAD) \
+#     --set database.url="$DATABASE_URL"
+
+global:
+  image:
+    registry: myacr.azurecr.io
+    pullPolicy: IfNotPresent
+
+api:
+  replicaCount: 2
+
+app:
+  replicaCount: 2
+
+ingress:
+  host: "agents.example.com"

@@ -1,0 +1,54 @@
+global:
+  image:
+    registry: <acr-name>.azurecr.io
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  # For AKS + ACR via managed identity, leave imagePullSecrets empty.
+  # Otherwise set to the name of a docker-registry secret.
+  imagePullSecrets: []
+
+namespace:
+  create: true
+  name: agents
+
+api:
+  replicaCount: 2
+  image:
+    repository: agents-api
+  port: 3333
+  env:
+    nodeEnv: production
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+app:
+  replicaCount: 2
+  image:
+    repository: agents-app
+  port: 8080
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: "<your-domain>"
+  tls:
+    enabled: true
+    secretName: app-tls
+
+database:
+  # WARNING: do not store real credentials here.
+  # Pass at deploy time: helm upgrade --set database.url="postgresql://..."
+  # or use External Secrets Operator with Azure Key Vault.
+  url: ""

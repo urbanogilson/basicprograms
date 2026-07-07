@@ -1,0 +1,14 @@
+{{- if gt (int .Values.app.replicaCount) 1 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: app-pdb
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "agents.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "agents.app.selectorLabels" . | nindent 6 }}
+{{- end }}
