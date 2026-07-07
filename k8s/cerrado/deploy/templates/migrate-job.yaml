@@ -1,0 +1,60 @@
+{{- if .Values.migrate.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cerrado-migrate
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "cerrado.labels" . | nindent 4 }}
+  annotations:
+    # Run before the app rolls out, on both first install and upgrades, so the
+    # schema is migrated before new API pods start serving.
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        {{- include "cerrado.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: migrate
+          image: {{ include "cerrado.migrate.image" . }}
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              npx prisma migrate deploy --schema apps/cerrado-api/prisma/schema.prisma
+              {{- if .Values.migrate.seed }}
+              npx prisma db seed
+              {{- end }}
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "cerrado.db.secretName" . }}
+                  key: {{ .Values.externalDatabase.secretKey }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+{{- end }}

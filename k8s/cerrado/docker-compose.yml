@@ -54,7 +54,7 @@ services:
     container_name: cerrado-web
     restart: unless-stopped
     ports:
-      - '8080:80'
+      - '8080:8080'
     depends_on:
       cerrado-api:
         condition: service_started

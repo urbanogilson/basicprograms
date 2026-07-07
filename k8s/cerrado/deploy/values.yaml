@@ -1,0 +1,75 @@
+global:
+  image:
+    registry: <acr-name>.azurecr.io
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  # For AKS + ACR via managed identity, leave imagePullSecrets empty.
+  # Otherwise set to the name of a docker-registry secret.
+  imagePullSecrets: []
+
+namespace:
+  create: true
+  name: cerrado
+
+api:
+  replicaCount: 2
+  image:
+    repository: cerrado-api
+  port: 3333
+  env:
+    nodeEnv: production
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+web:
+  replicaCount: 2
+  image:
+    repository: cerrado-web
+  # nginx listens on 8080 so the pod can run fully non-root.
+  port: 8080
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+migrate:
+  # One-shot Prisma "migrate deploy" run as a pre-install/pre-upgrade Helm hook.
+  enabled: true
+  # Seed sample data. Keep false in production; enable for a first bootstrap.
+  seed: false
+  image:
+    # Built from the API Dockerfile "builder" stage (has the Prisma CLI, schema,
+    # migrations, tsx and seed). Push to ACR as cerrado-migrate:<tag>:
+    #   docker build -f apps/cerrado-api/Dockerfile --target builder \
+    #     -t <acr>.azurecr.io/cerrado-migrate:<tag> .
+    repository: cerrado-migrate
+
+externalDatabase:
+  # The database is Azure Database for PostgreSQL (managed). Provision a K8s
+  # Secret out-of-band (External Secrets Operator, or Azure Key Vault CSI) that
+  # holds the connection string, and reference it here. Nothing sensitive is
+  # stored in this chart.
+  #
+  # The URL must target the Azure Flexible Server FQDN with SSL, e.g.:
+  #   postgresql://user:pass@<server>.postgres.database.azure.com:5432/cerrado?sslmode=require&schema=public
+  existingSecret: cerrado-db
+  secretKey: DATABASE_URL
+  # Escape hatch for dev/testing ONLY: if set, the chart renders a Secret from
+  # this value. Leave empty in production and use existingSecret instead.
+  url: ""
+
+ingress:
+  enabled: true
+  className: nginx
+  host: "<your-domain>"
+  tls:
+    enabled: true
+    secretName: cerrado-web-tls

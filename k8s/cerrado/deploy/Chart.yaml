@@ -1,0 +1,6 @@
+apiVersion: v2
+name: cerrado
+description: Cerrado Agents API (Express + Prisma) and Web (Angular/nginx) for AKS with Azure managed PostgreSQL
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

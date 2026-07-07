@@ -1,0 +1,34 @@
+Cerrado has been deployed to namespace "{{ .Values.namespace.name }}" (release {{ .Release.Name }}).
+
+Components:
+  - cerrado-api   : Express + Prisma API (ClusterIP :{{ .Values.api.port }})
+  - cerrado-web   : Angular SPA via nginx (ClusterIP :80 -> :{{ .Values.web.port }})
+{{- if .Values.migrate.enabled }}
+  - cerrado-migrate (Job) : ran "prisma migrate deploy"{{ if .Values.migrate.seed }} + seed{{ end }} as a pre-install/pre-upgrade hook
+{{- end }}
+
+Database (Azure Database for PostgreSQL, managed):
+{{- if .Values.externalDatabase.url }}
+  ! Using the chart-created "cerrado-db" Secret from externalDatabase.url.
+    This is for dev/testing only — do NOT do this in production.
+{{- else }}
+  DATABASE_URL is read from existing Secret "{{ .Values.externalDatabase.existingSecret }}" (key {{ .Values.externalDatabase.secretKey }}).
+  This Secret MUST already exist in namespace "{{ .Values.namespace.name }}" before deploy
+  (the migrate hook Job and the API pods both consume it via secretKeyRef).
+  Provision it with External Secrets Operator or the Azure Key Vault CSI driver, and make
+  sure the URL includes sslmode=require, e.g.:
+    postgresql://USER:PASS@SERVER.postgres.database.azure.com:5432/cerrado?sslmode=require&schema=public
+{{- end }}
+
+Access:
+{{- if .Values.ingress.enabled }}
+  https://{{ .Values.ingress.host }}/   (ingressClassName: {{ .Values.ingress.className }}{{ if .Values.ingress.tls.enabled }}, TLS secret: {{ .Values.ingress.tls.secretName }}{{ end }})
+  Ensure DNS for {{ .Values.ingress.host }} points at the ingress-nginx controller's external IP.
+{{- else }}
+  Ingress disabled. Port-forward to test:
+    kubectl -n {{ .Values.namespace.name }} port-forward svc/cerrado-web 8080:80
+{{- end }}
+
+Verify:
+  kubectl -n {{ .Values.namespace.name }} get pods,svc,ingress
+  kubectl -n {{ .Values.namespace.name }} logs job/cerrado-migrate

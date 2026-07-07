@@ -1,0 +1,32 @@
+# Production overrides — commit this file, but never put real secrets here.
+# Deploy with:
+#   helm upgrade --install cerrado ./deploy \
+#     -f deploy/values.prod.yaml \
+#     --set global.image.tag=$(git rev-parse --short HEAD)
+#
+# The DATABASE_URL is NOT set here — it comes from the existing Kubernetes
+# Secret named by externalDatabase.existingSecret (provisioned via External
+# Secrets Operator / Azure Key Vault).
+
+global:
+  image:
+    registry: myacr.azurecr.io
+    pullPolicy: IfNotPresent
+
+api:
+  replicaCount: 2
+
+web:
+  replicaCount: 2
+
+migrate:
+  enabled: true
+  seed: false
+
+externalDatabase:
+  existingSecret: cerrado-db
+  secretKey: DATABASE_URL
+
+ingress:
+  enabled: true
+  host: "cerrado.example.com"

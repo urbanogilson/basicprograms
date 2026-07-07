@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # Name must stay "cerrado-api": the web nginx.conf proxies /api to
+  # http://cerrado-api:3333, so this Service name is a hard contract.
+  name: cerrado-api
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "cerrado.labels" . | nindent 4 }}
+    {{- include "cerrado.api.selectorLabels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "cerrado.api.selectorLabels" . | nindent 4 }}
+  ports:
+    - port: {{ .Values.api.port }}
+      targetPort: {{ .Values.api.port }}
+      protocol: TCP
