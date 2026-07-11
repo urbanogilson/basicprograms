@@ -35,15 +35,15 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Full image references (registry/repository:tag).
 */}}
 {{- define "cerrado.api.image" -}}
-{{ .Values.global.image.registry }}/{{ .Values.api.image.repository }}:{{ .Values.global.image.tag }}
+{{- with .Values.global.image.registry }}{{ . }}/{{ end }}{{ .Values.api.image.repository }}:{{ .Values.global.image.tag }}
 {{- end }}
 
 {{- define "cerrado.web.image" -}}
-{{ .Values.global.image.registry }}/{{ .Values.web.image.repository }}:{{ .Values.global.image.tag }}
+{{- with .Values.global.image.registry }}{{ . }}/{{ end }}{{ .Values.web.image.repository }}:{{ .Values.global.image.tag }}
 {{- end }}
 
 {{- define "cerrado.migrate.image" -}}
-{{ .Values.global.image.registry }}/{{ .Values.migrate.image.repository }}:{{ .Values.global.image.tag }}
+{{- with .Values.global.image.registry }}{{ . }}/{{ end }}{{ .Values.migrate.image.repository }}:{{ .Values.global.image.tag }}
 {{- end }}
 
 {{/*

@@ -1,0 +1,35 @@
+# Local minikube overrides. Deploy with:
+#   helm install cerrado ./deploy -n cerrado -f deploy/values.local.yaml
+# Prereqs (see k8s/cerrado/minikube/README.md): namespace created, images loaded
+# into minikube, and minikube/postgres.yaml applied (provides the cerrado-db Secret).
+
+global:
+  image:
+    registry: ""          # images are loaded directly into minikube; no registry prefix
+    tag: local
+    pullPolicy: IfNotPresent
+
+namespace:
+  create: false           # created manually so Postgres + Secret can pre-exist
+
+api:
+  replicaCount: 1         # replica 1 also disables the PDBs (fine on a single-node cluster)
+
+web:
+  replicaCount: 1
+
+migrate:
+  enabled: true
+  seed: true              # seed sample agents so the UI has cards
+
+externalDatabase:
+  existingSecret: cerrado-db
+  secretKey: DATABASE_URL
+  url: ""                 # not the escape hatch — we supply cerrado-db via minikube/postgres.yaml
+
+ingress:
+  enabled: true
+  className: nginx
+  host: cerrado.test
+  tls:
+    enabled: false

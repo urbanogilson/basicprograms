@@ -1,0 +1,81 @@
+# Dev-only, LOCAL Postgres for minikube — the stand-in for Azure managed PostgreSQL.
+# NOT part of the Helm chart. Apply with kubectl BEFORE `helm install` so the
+# cerrado-db Secret exists when the pre-install migrate hook runs:
+#   kubectl apply -n cerrado -f minikube/postgres.yaml
+#
+# Data is emptyDir (throwaway) — deleting the pod loses the DB; the migrate hook
+# re-applies the schema + seed on the next `helm install/upgrade`.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cerrado-db
+  labels:
+    app.kubernetes.io/part-of: cerrado
+type: Opaque
+stringData:
+  # No sslmode locally (Azure would use sslmode=require). Host = the postgres Service.
+  DATABASE_URL: postgresql://cerrado:cerrado@postgres:5432/cerrado?schema=public
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/part-of: cerrado
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres
+        app.kubernetes.io/part-of: cerrado
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_USER
+              value: cerrado
+            - name: POSTGRES_PASSWORD
+              value: cerrado
+            - name: POSTGRES_DB
+              value: cerrado
+            # Point PGDATA at a subdir so emptyDir (which is not empty: it has
+            # lost+found on some drivers) does not trip up initdb.
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ['sh', '-c', 'pg_isready -U cerrado -d cerrado']
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/part-of: cerrado
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
