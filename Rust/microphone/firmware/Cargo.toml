@@ -1,0 +1,24 @@
+[package]
+name                   = "microphone"
+description            = "Streams INMP441 audio over USB CDC for tools/scope.py and tools/record.py"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+
+[[bin]]
+name = "microphone"
+path = "./src/bin/main.rs"
+
+[dependencies]
+i2s-mic = { path = "../crates/i2s-mic", features = ["defmt"] }
+
+# The chip feature lives here, not in the library: only the final binary can pick it.
+esp-hal = { workspace = true, features = ["defmt", "esp32s3"] }
+
+defmt                  = { workspace = true }
+nb                     = { workspace = true }
+esp-bootloader-esp-idf = { version = "0.4.0", features = ["defmt", "esp32s3"] }
+
+critical-section = "1.2.0"
+panic-rtt-target = { version = "0.2.0", features = ["defmt"] }
+rtt-target       = { version = "0.6.2", features = ["defmt"] }

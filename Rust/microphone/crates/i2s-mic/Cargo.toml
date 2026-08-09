@@ -1,0 +1,18 @@
+[package]
+name        = "i2s-mic"
+description = "I2S MEMS microphone driver for esp-hal, with an INMP441 preset"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+
+[dependencies]
+esp-hal = { workspace = true, optional = true }
+defmt   = { workspace = true, optional = true }
+libm    = { workspace = true }
+
+[features]
+default = ["driver"]
+# The esp-hal driver. Turning it off leaves the portable DSP half, which builds
+# for the host so `cargo test` can run there.
+driver = ["dep:esp-hal"]
+defmt  = ["dep:defmt", "esp-hal?/defmt"]
