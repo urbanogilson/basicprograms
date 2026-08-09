@@ -1,0 +1,29 @@
+[package]
+name                   = "speaker"
+description            = "Plays an embedded WAV clip through a MAX98357A I2S amplifier"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+# Keeps plain `cargo run --release` flashing the player rather than the tone diagnostic.
+default-run = "speaker"
+
+[[bin]]
+name = "speaker"
+path = "./src/bin/main.rs"
+
+[[bin]]
+name = "tone"
+path = "./src/bin/tone.rs"
+
+[dependencies]
+i2s-speaker = { path = "../crates/i2s-speaker", features = ["defmt"] }
+
+# The chip feature lives here, not in the library: only the final binary can pick it.
+esp-hal = { workspace = true, features = ["defmt", "esp32s3"] }
+
+defmt                  = { workspace = true }
+esp-bootloader-esp-idf = { version = "0.4.0", features = ["defmt", "esp32s3"] }
+
+critical-section = "1.2.0"
+panic-rtt-target = { version = "0.2.0", features = ["defmt"] }
+rtt-target       = { version = "0.6.2", features = ["defmt"] }

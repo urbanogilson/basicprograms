@@ -1,0 +1,17 @@
+[package]
+name        = "i2s-speaker"
+description = "I2S audio output for esp-hal with a MAX98357A preset, plus a no_std WAV parser"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+
+[dependencies]
+esp-hal = { workspace = true, optional = true }
+defmt   = { workspace = true, optional = true }
+
+[features]
+default = ["driver"]
+# The esp-hal driver. Turning it off leaves the portable WAV parser, which builds
+# for the host so `cargo test` can run there.
+driver = ["dep:esp-hal"]
+defmt  = ["dep:defmt", "esp-hal?/defmt"]
