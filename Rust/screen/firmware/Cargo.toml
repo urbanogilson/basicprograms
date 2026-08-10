@@ -1,0 +1,30 @@
+[package]
+name                   = "screen"
+description            = "Demo for a GME12864 (SSD1306) 128x64 OLED over I2C"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+# Keeps plain `cargo run --release` flashing the demo rather than the I2C scanner.
+default-run = "screen"
+
+[[bin]]
+name = "screen"
+path = "./src/bin/main.rs"
+
+[[bin]]
+name = "i2cscan"
+path = "./src/bin/i2cscan.rs"
+
+[dependencies]
+oled-screen = { path = "../crates/oled-screen", features = ["defmt"] }
+
+# The chip feature lives here, not in the library: only the final binary can pick it.
+esp-hal = { workspace = true, features = ["defmt", "esp32s3"] }
+
+defmt                  = { workspace = true }
+embedded-graphics      = { workspace = true }
+esp-bootloader-esp-idf = { version = "0.4.0", features = ["defmt", "esp32s3"] }
+
+critical-section = "1.2.0"
+panic-rtt-target = { version = "0.2.0", features = ["defmt"] }
+rtt-target       = { version = "0.6.2", features = ["defmt"] }

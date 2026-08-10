@@ -1,0 +1,18 @@
+[package]
+name        = "oled-screen"
+description = "Ergonomic wrapper around ssd1306 + embedded-graphics for 128x64 OLED modules"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+
+[dependencies]
+# Generic over the embedded-hal trait, so this crate never depends on esp-hal and
+# builds for the host unconditionally - which is what makes `cargo test` work.
+embedded-hal      = { workspace = true }
+embedded-graphics = { workspace = true }
+ssd1306           = { workspace = true }
+display-interface = { workspace = true }
+defmt             = { workspace = true, optional = true }
+
+[features]
+defmt = ["dep:defmt"]
