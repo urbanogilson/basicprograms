@@ -1,0 +1,14 @@
+[package]
+name        = "rotary-encoder"
+description = "Bounce-tolerant quadrature decoder and button debouncer for incremental rotary encoders"
+edition.workspace      = true
+rust-version.workspace = true
+version.workspace      = true
+
+[dependencies]
+# No HAL dependency at all: this crate consumes sampled pin levels as plain bools, so it
+# builds for the host unconditionally and `cargo test` needs no feature juggling.
+defmt = { workspace = true, optional = true }
+
+[features]
+defmt = ["dep:defmt"]

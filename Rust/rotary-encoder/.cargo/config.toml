@@ -1,0 +1,16 @@
+[target.xtensa-esp32s3-none-elf]
+runner = "probe-rs run --chip=esp32s3 --preverify --always-print-stacktrace --no-location --catch-hardfault"
+# Scoped to the target rather than [build]: under [build] this is handed to every target,
+# including the host, which breaks `cargo test` for the rotary-encoder crate.
+rustflags = [
+  "-C", "link-arg=-nostartfiles",
+]
+
+[env]
+DEFMT_LOG="info"
+
+[build]
+target = "xtensa-esp32s3-none-elf"
+
+[unstable]
+build-std = ["core"]
