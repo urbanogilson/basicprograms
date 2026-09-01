@@ -1,5 +1,0 @@
-.DS_Store
-*.tgz
-.git/
-.gitignore
-values.prod.yaml
