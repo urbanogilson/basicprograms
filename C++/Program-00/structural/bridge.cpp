@@ -3,45 +3,45 @@
 #include <string>
 
 class Theme {
- public:
+public:
   virtual std::string getColor(void) = 0;
 };
 
 class DarkTheme : public Theme {
- public:
+public:
   std::string getColor(void) override { return "Dark black"; }
 };
 
 class LightTheme : public Theme {
- public:
+public:
   std::string getColor(void) override { return "Off white"; }
 };
 
 class AquaTheme : public Theme {
- public:
+public:
   std::string getColor(void) override { return "Light blue"; }
 };
 
 class WebPage {
- public:
+public:
   virtual std::string getContent(void) = 0;
 };
 
 class About : public WebPage {
- private:
+private:
   std::shared_ptr<Theme> m_Theme;
 
- public:
+public:
   About(std::shared_ptr<Theme> theme) : m_Theme(theme){};
 
   std::string getContent() { return "About page in " + m_Theme->getColor(); };
 };
 
 class Careers : public WebPage {
- private:
+private:
   std::shared_ptr<Theme> m_Theme;
 
- public:
+public:
   Careers(std::shared_ptr<Theme> theme)
       : m_Theme(theme){
 
@@ -56,7 +56,7 @@ int main(void) {
   auto about = About(darkTheme);
   auto careers = Careers(darkTheme);
 
-  std::cout << about.getContent() << std::endl;  // "About page in Dark Black";
+  std::cout << about.getContent() << std::endl; // "About page in Dark Black";
   std::cout << careers.getContent()
-            << std::endl;  // "Careers page in Dark Black";
+            << std::endl; // "Careers page in Dark Black";
 }

@@ -2,11 +2,11 @@
 #include <string>
 
 class Sheep {
- private:
+private:
   std::string m_Name;
   std::string m_Category;
 
- public:
+public:
   Sheep(const std::string &name, const std::string &category = "Mountain Sheep")
       : m_Name(name), m_Category(category) {}
 

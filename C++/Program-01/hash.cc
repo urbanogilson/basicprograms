@@ -24,19 +24,21 @@ void Hash::Insert(const std::string &key, const std::string &value) {
 std::optional<std::forward_list<Node>::iterator> Hash::Find(const Node &node) {
   auto chain = _chain[_Position(node)];
   auto result = std::find(std::begin(chain), std::end(chain), node);
-  if (result != std::end(chain)) return result;
+  if (result != std::end(chain))
+    return result;
   return std::nullopt;
 }
 
-std::optional<std::forward_list<Node>::iterator> Hash::Find(
-    const std::string &key) {
+std::optional<std::forward_list<Node>::iterator>
+Hash::Find(const std::string &key) {
   return Find(Node{.key = key});
 }
 
 std::optional<std::string> Hash::Get(const std::string &key) {
   auto result = Find(key);
 
-  if (result.has_value()) return result.value()->value;
+  if (result.has_value())
+    return result.value()->value;
 
   return std::nullopt;
 }
@@ -48,4 +50,4 @@ int Hash::Delete(const std::string &key) {
   return n;
 }
 
-}  // namespace kvdb
+} // namespace kvdb

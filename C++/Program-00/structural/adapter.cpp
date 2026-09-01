@@ -1,35 +1,35 @@
 #include <memory>
 
 class Lion {
- public:
+public:
   virtual void roar(void) = 0;
 };
 
 class AfricanLion : public Lion {
- public:
+public:
   void roar(void) override {}
 };
 
 class AsianLion : public Lion {
- public:
+public:
   void roar(void) override {}
 };
 
 class Hunter {
- public:
+public:
   void hunt(Lion &lion) { lion.roar(); }
 };
 
 class WildDog {
- public:
+public:
   void bark(void) {}
 };
 
 class WildDogAdapter : public Lion {
- private:
+private:
   std::shared_ptr<WildDog> m_Dog;
 
- public:
+public:
   WildDogAdapter(const std::shared_ptr<WildDog> &dog) : m_Dog(dog) {}
 
   void roar(void) override { m_Dog->bark(); }

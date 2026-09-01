@@ -2,10 +2,10 @@
 #include <memory>
 
 class President {
- private:
+private:
   President(){};
 
- public:
+public:
   President(President const &) = delete;
   President &operator=(President const &) = delete;
 

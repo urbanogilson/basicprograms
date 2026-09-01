@@ -15,21 +15,21 @@ enum class Code {
 };
 
 class Status {
- public:
+public:
   Status() : code_(Code::kOK), message_("") {}
-  Status(Code code, const std::string& message)
+  Status(Code code, const std::string &message)
       : code_(Code::kOK), message_(message) {}
   ~Status() {}
 
   static Status Ok(void) { return Status(); };
-  static Status IOError(const std::string& message) {
+  static Status IOError(const std::string &message) {
     return Status(Code::kIOError, message);
   }
 
- private:
+private:
   Code code_;
   std::string message_;
 };
-}  // namespace kvdb
+} // namespace kvdb
 
-#endif  // KVDB_STATUS_
+#endif // KVDB_STATUS_

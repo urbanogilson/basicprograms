@@ -14,7 +14,7 @@
 #include <vector>
 
 namespace kvdb {
-static std::unordered_map<std::string, std::string> _map;  // ! To be removed
+static std::unordered_map<std::string, std::string> _map; // ! To be removed
 
 struct Node {
   std::string key;
@@ -23,7 +23,7 @@ struct Node {
 };
 
 class Hash {
- private:
+private:
   std::vector<std::forward_list<Node>> _chain;
   std::hash<std::string> _hasher;
   size_t _mask;
@@ -31,7 +31,7 @@ class Hash {
   size_t _Position(const std::string &key) { return _hasher(key) & _mask; }
   size_t _Position(const Node &node) { return _Position(node.key); }
 
- public:
+public:
   Hash(ssize_t size);
   ~Hash();
   void Insert(Node &node);
@@ -43,6 +43,6 @@ class Hash {
   size_t Size(void) const { return _size; };
 };
 
-}  // namespace kvdb
+} // namespace kvdb
 
-#endif  // KVDB_HASH_
+#endif // KVDB_HASH_

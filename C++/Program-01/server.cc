@@ -168,7 +168,7 @@ int Server::AcceptNewConnection(std::vector<Connection *> &fdConnections,
 
   if (connfd < 0) {
     Die("accept error()");
-    return -1;  // erro
+    return -1; // erro
   }
 
   // set the new connection fd to nonblocking mode
@@ -197,7 +197,7 @@ void Server::ConnectionIo(Connection *connection) {
   else if (connection->state == State::RESPONSE)
     StateResponse(connection);
   else
-    assert(0);  // not expected
+    assert(0); // not expected
 }
 
 void Server::StateResponse(Connection *connection) {
@@ -219,7 +219,8 @@ bool Server::TryFillBuffer(Connection *connection) {
     rv = read(connection->fd, &connection->rbuf[connection->rbuf_size], cap);
   } while (rv < 0 && errno == EINTR);
 
-  if (rv < 0 && errno == EAGAIN) return false;
+  if (rv < 0 && errno == EAGAIN)
+    return false;
 
   if (rv < 0) {
     Die("read() error");
@@ -360,7 +361,8 @@ int Server::DoRequest(const char *request, int requestLength, int *rescode,
 
 int Server::DoGet(std::vector<std::string> &cmd, char *response,
                   int *responseLength) {
-  if (!_map.count(cmd[1])) return (int)Result::NX;  // TODO change return
+  if (!_map.count(cmd[1]))
+    return (int)Result::NX; // TODO change return
   std::cout << "(GET) k: " << cmd[1] << std::endl;
   std::string &val = _map[cmd[1]];
   assert(val.size() <= _K_MAX_MSG);
@@ -397,7 +399,8 @@ int Server::ParseRequest(const char *data, size_t len,
 
   memcpy(&n, &data[0], 4);
 
-  if (n > _K_MAX_MSG) return -1;
+  if (n > _K_MAX_MSG)
+    return -1;
 
   size_t pos = 4;
 
@@ -415,11 +418,12 @@ int Server::ParseRequest(const char *data, size_t len,
     pos += 4 + sz;
   }
 
-  if (pos != len) return -1;
+  if (pos != len)
+    return -1;
 
   return 0;
 }
 
 Server::~Server() {}
 
-}  // namespace kvdb
+} // namespace kvdb

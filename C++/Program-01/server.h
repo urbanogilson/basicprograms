@@ -26,11 +26,11 @@ struct Connection;
 enum class State;
 
 class Server : public kvdb::Kvdb {
- private:
+private:
   int _port;
   static const size_t _K_MAX_MSG = 4096;
 
- public:
+public:
   static const size_t K_MAX_MSG = 4096;
   Server(const int port);
   Server(void);
@@ -79,5 +79,5 @@ struct Connection {
   char wbuf[4 + Server::K_MAX_MSG];
 };
 
-}  // namespace kvdb
-#endif  // KVDB_SERVER_H_
+} // namespace kvdb
+#endif // KVDB_SERVER_H_

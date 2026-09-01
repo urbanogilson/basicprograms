@@ -4,7 +4,7 @@
 class Burger;
 
 class BurgerBuilder {
- public:
+public:
   int m_Size;
 
   bool m_Cheese;
@@ -13,10 +13,7 @@ class BurgerBuilder {
   bool m_Tomato;
 
   BurgerBuilder(int size)
-      : m_Size(size),
-        m_Cheese(false),
-        m_Pepperoni(false),
-        m_Lettuce(false),
+      : m_Size(size), m_Cheese(false), m_Pepperoni(false), m_Lettuce(false),
         m_Tomato(false) {}
 
   BurgerBuilder &addCheese(void) {
@@ -43,18 +40,16 @@ class BurgerBuilder {
 };
 
 class Burger {
- protected:
+protected:
   bool m_Cheese;
   bool m_Pepperoni;
   bool m_Lettuce;
   bool m_Tomato;
 
- public:
+public:
   Burger(BurgerBuilder *builder)
-      : m_Cheese(builder->m_Cheese),
-        m_Pepperoni(builder->m_Pepperoni),
-        m_Lettuce(builder->m_Lettuce),
-        m_Tomato(builder->m_Tomato) {}
+      : m_Cheese(builder->m_Cheese), m_Pepperoni(builder->m_Pepperoni),
+        m_Lettuce(builder->m_Lettuce), m_Tomato(builder->m_Tomato) {}
 };
 
 int main(void) {

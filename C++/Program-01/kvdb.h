@@ -22,16 +22,16 @@ enum class Result {
 };
 
 class Kvdb {
- public:
+public:
   Kvdb(void) noexcept : name_("kvdb") {}
   Kvdb(const std::string &name) noexcept : name_(name) {}
   ~Kvdb() noexcept {}
   static int WriteFull(const int fd, char *buf, size_t n);
   static int ReadFull(const int fd, char *buf, size_t n);
 
- private:
+private:
   std::string name_;
 };
-}  // namespace kvdb
+} // namespace kvdb
 
-#endif  // KVDB_KVDB_
+#endif // KVDB_KVDB_

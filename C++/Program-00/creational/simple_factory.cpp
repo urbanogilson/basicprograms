@@ -2,17 +2,17 @@
 #include <memory>
 
 class Door {
- public:
+public:
   virtual float getWidth(void) = 0;
   virtual float getHeight(void) = 0;
   virtual ~Door(){};
 };
 
 class WoodenDoor : public Door {
- private:
+private:
   float m_Width, m_Height;
 
- public:
+public:
   WoodenDoor(float width, float height) : m_Width(width), m_Height(height) {}
   ~WoodenDoor() override {}
 
@@ -22,7 +22,7 @@ class WoodenDoor : public Door {
 };
 
 class DoorFactory {
- public:
+public:
   static std::shared_ptr<Door> makeDoor(float width, float height) {
     return std::make_shared<WoodenDoor>(WoodenDoor(width, height));
   }

@@ -2,12 +2,12 @@
 #include <memory>
 
 class Interviewer {
- public:
+public:
   virtual void askQuestions(void) = 0;
 };
 
 class Developer : public Interviewer {
- public:
+public:
   void askQuestions(void) override {
     std::cout << "Asking about design patterns!\n";
   }
@@ -20,10 +20,10 @@ class CommunityExecutive : public Interviewer {
 };
 
 class HiringManager {
- protected:
+protected:
   virtual std::shared_ptr<Interviewer> makeInterviewer(void) = 0;
 
- public:
+public:
   void takeInterview(void) {
     std::shared_ptr<Interviewer> interviewer = makeInterviewer();
     interviewer->askQuestions();
@@ -44,8 +44,8 @@ class MarketingManager : public HiringManager {
 
 int main(void) {
   auto devManager = DevelopmentManager();
-  devManager.takeInterview();  // Output: Asking about design patterns!
+  devManager.takeInterview(); // Output: Asking about design patterns!
 
   auto marketingManager = MarketingManager();
-  marketingManager.takeInterview();  // Output: Asking about community building!
+  marketingManager.takeInterview(); // Output: Asking about community building!
 }

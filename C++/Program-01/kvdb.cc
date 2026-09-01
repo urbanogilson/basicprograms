@@ -34,4 +34,4 @@ int Kvdb::WriteFull(const int fd, char *buf, size_t n) {
   return 0;
 }
 
-}  // namespace kvdb
+} // namespace kvdb
