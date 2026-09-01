@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // Configure every time: it is near-free once build/dev exists, and it
+      // means the task still works on a fresh clone.
+      "label": "build dev",
+      "type": "shell",
+      "command": "cmake --preset dev && cmake --build build/dev",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "test dev",
+      "type": "shell",
+      "command": "cmake --workflow --preset dev",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": "$gcc"
+    }
+  ]
+}

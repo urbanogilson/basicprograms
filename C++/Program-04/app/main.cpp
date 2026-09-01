@@ -1,9 +1,9 @@
+#include "tictactoe/example.h"
+
 #include <iostream>
 
-#include "myproject/example.h"
-
 int main() {
-  std::cout << myproject::add(2, 3) << '\n';
+    std::cout << tictactoe::add(2, 3) << '\n';
 
-  return 0;
+    return 0;
 }

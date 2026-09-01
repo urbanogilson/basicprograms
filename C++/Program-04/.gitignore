@@ -1,1 +1,13 @@
 build/
+build*/
+
+# clangd index cache
+.cache/
+
+# Generated at configure time
+compile_commands.json
+
+# Personal presets: the documented place for local overrides, never committed
+CMakeUserPresets.json
+
+!.vscode

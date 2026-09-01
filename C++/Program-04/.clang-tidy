@@ -1,0 +1,33 @@
+---
+# Broad check set, minus the ones that fight normal, readable C++.
+#   readability-identifier-length      rejects i, x, a, b
+#   readability-magic-numbers          fires on every literal in tests
+#   modernize-use-trailing-return-type is a style preference
+Checks: >
+  bugprone-*,
+  cert-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -modernize-use-trailing-return-type
+
+# Only escalate the categories that mean a real defect. Promoting '*' promotes
+# stylistic nits too, and the build then fails for the wrong reasons.
+WarningsAsErrors: 'bugprone-*,performance-*'
+
+# Note the key is HeaderFilterRegex. clang-tidy ignores HeaderFilterExpression.
+HeaderFilterRegex: 'include/tictactoe/.*'
+
+CheckOptions:
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.FunctionCase
+    value:           lower_case
+  - key:             readability-identifier-naming.NamespaceCase
+    value:           lower_case
+  - key:             modernize-use-nullptr.NullMacros
+    value:           'NULL'
+...

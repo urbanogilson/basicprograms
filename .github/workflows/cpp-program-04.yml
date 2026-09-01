@@ -1,0 +1,94 @@
+name: C++ Program-04
+
+on:
+  push:
+    paths:
+      - 'C++/Program-04/**'
+      - '.github/workflows/cpp-program-04.yml'
+  pull_request:
+    paths:
+      - 'C++/Program-04/**'
+      - '.github/workflows/cpp-program-04.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: 'C++/Program-04'
+
+jobs:
+  build-test:
+    name: ${{ matrix.compiler }} / ${{ matrix.preset }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+        preset: [dev, release]
+        include:
+          - compiler: gcc
+            cc: gcc-13
+            cxx: g++-13
+          - compiler: clang
+            cc: clang-18
+            cxx: clang++-18
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure, build and test
+        run: cmake --workflow --preset ${{ matrix.preset }}
+
+  sanitizers:
+    name: ASan + UBSan
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CXX: clang++-18
+      # Make UBSan findings fail the run instead of merely printing.
+      UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1
+      ASAN_OPTIONS: detect_leaks=1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure, build and test under sanitizers
+        run: cmake --workflow --preset asan
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-13
+      CXX: g++-13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install gcovr
+        run: pipx install gcovr
+      - name: Configure and build
+        run: |
+          cmake --preset coverage
+          cmake --build build/coverage -j"$(nproc)"
+      - name: Generate coverage report
+        run: cmake --build build/coverage --target coverage
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: 'C++/Program-04/build/coverage/coverage/'
+          if-no-files-found: error
+
+  lint:
+    name: clang-format + clang-tidy
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CXX: clang++-18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check formatting
+        run: |
+          clang-format-18 --dry-run --Werror \
+            src/*.cpp app/*.cpp include/myproject/*.h tests/*.cpp
+      - name: Run clang-tidy
+        run: |
+          cmake --preset tidy -DCLANG_TIDY_EXECUTABLE="$(command -v clang-tidy-18)"
+          cmake --build build/tidy -j"$(nproc)"

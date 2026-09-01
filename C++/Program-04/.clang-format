@@ -1,0 +1,13 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+ColumnLimit: 100
+IndentWidth: 4
+PointerAlignment: Left
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: Inline
+BreakBeforeBraces: Attach
+IncludeBlocks: Regroup
+SortIncludes: CaseSensitive
+SpaceAfterCStyleCast: true
+...

@@ -1,8 +1,11 @@
-add_executable(myproject_app
+add_executable(tictactoe_app
     main.cpp
 )
 
-target_link_libraries(myproject_app
+target_link_libraries(tictactoe_app
     PRIVATE
-        myproject
+        tictactoe::tictactoe
 )
+
+enable_compiler_warnings(tictactoe_app)
+enable_clang_tidy(tictactoe_app)

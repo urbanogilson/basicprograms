@@ -1,7 +1,9 @@
-#include "myproject/example.h"
+#include "tictactoe/example.h"
 
-namespace myproject {
+namespace tictactoe {
 
-int add(int a, int b) { return a + b; }
+int add(int a, int b) {
+    return a + b;
+}
 
-} // namespace myproject
+} // namespace tictactoe

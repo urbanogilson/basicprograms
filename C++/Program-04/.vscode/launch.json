@@ -1,0 +1,46 @@
+{
+  // Debugging needs the C/C++ extension (ms-vscode.cpptools) and gdb.
+  // Both configs build the dev preset first, via the task in tasks.json.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run tictactoe_app",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/dev/app/tictactoe_app",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "build dev",
+      "setupCommands": [
+        {
+          "description": "Pretty-print std:: containers in the debugger",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Debug tictactoe_tests",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/dev/tests/tictactoe_tests",
+      // Run one test with --gtest_filter=AddTest.*
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "build dev",
+      "setupCommands": [
+        {
+          "description": "Pretty-print std:: containers in the debugger",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

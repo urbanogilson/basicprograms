@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-20.04
 
-ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE="3.22.2"
+ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE="3.28.3"
 
 # Optionally install the cmake for vcpkg
 COPY ./reinstall-cmake.sh /tmp/

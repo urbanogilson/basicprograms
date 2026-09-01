@@ -1,0 +1,123 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "dev",
+      "displayName": "Debug + strict warnings",
+      "description": "Everyday development build. Warnings are errors.",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TICTACTOE_WARNINGS_AS_ERRORS": "ON"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "Debug + ASan/UBSan",
+      "description": "Address and undefined behaviour sanitizers across the whole build.",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TICTACTOE_ENABLE_SANITIZERS": "ON"
+      }
+    },
+    {
+      "name": "coverage",
+      "displayName": "Debug + coverage",
+      "description": "gcov instrumentation. Build the 'coverage' target for a report.",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TICTACTOE_ENABLE_COVERAGE": "ON"
+      }
+    },
+    {
+      "name": "tidy",
+      "displayName": "Debug + clang-tidy",
+      "description": "Runs clang-tidy on first-party sources as part of the build.",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TICTACTOE_ENABLE_CLANG_TIDY": "ON"
+      }
+    },
+    {
+      "name": "bench",
+      "displayName": "Release + benchmarks",
+      "description": "Google Benchmark suite. Release, because debug timings are meaningless.",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TICTACTOE_ENABLE_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "RelWithDebInfo",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "dev", "configurePreset": "dev" },
+    { "name": "asan", "configurePreset": "asan" },
+    { "name": "coverage", "configurePreset": "coverage" },
+    { "name": "tidy", "configurePreset": "tidy" },
+    { "name": "bench", "configurePreset": "bench" },
+    { "name": "release", "configurePreset": "release" }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "stopOnFailure": false }
+    },
+    { "name": "dev", "inherits": "base", "configurePreset": "dev" },
+    { "name": "asan", "inherits": "base", "configurePreset": "asan" },
+    { "name": "coverage", "inherits": "base", "configurePreset": "coverage" },
+    { "name": "tidy", "inherits": "base", "configurePreset": "tidy" },
+    { "name": "release", "inherits": "base", "configurePreset": "release" }
+  ],
+  "workflowPresets": [
+    {
+      "name": "dev",
+      "displayName": "Configure, build and test (dev)",
+      "steps": [
+        { "type": "configure", "name": "dev" },
+        { "type": "build", "name": "dev" },
+        { "type": "test", "name": "dev" }
+      ]
+    },
+    {
+      "name": "asan",
+      "displayName": "Configure, build and test under sanitizers",
+      "steps": [
+        { "type": "configure", "name": "asan" },
+        { "type": "build", "name": "asan" },
+        { "type": "test", "name": "asan" }
+      ]
+    },
+    {
+      "name": "release",
+      "displayName": "Configure, build and test (release)",
+      "steps": [
+        { "type": "configure", "name": "release" },
+        { "type": "build", "name": "release" },
+        { "type": "test", "name": "release" }
+      ]
+    }
+  ]
+}
