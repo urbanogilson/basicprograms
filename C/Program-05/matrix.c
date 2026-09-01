@@ -7,7 +7,8 @@ matrix_t matrix_create(const size_t rows, const size_t cols) {
 
   int *array = (int *)calloc(sizeof(int), rows * cols);
 
-  if (array == NULL) return matrix;
+  if (array == NULL)
+    return matrix;
 
   matrix.matrix = malloc(rows * sizeof(int *));
 
@@ -75,11 +76,13 @@ void matrix_print_memory(FILE *output, const matrix_t *matrix) {
 matrix_t matrix_multiply(const matrix_t matrix_a, const matrix_t matrix_b) {
   matrix_t matrix = {.rows = 0, .cols = 0, .matrix = NULL};
 
-  if (matrix_a.cols != matrix_b.rows) return matrix;
+  if (matrix_a.cols != matrix_b.rows)
+    return matrix;
 
   matrix = matrix_create(matrix_a.rows, matrix_b.cols);
 
-  if (matrix.matrix == NULL) return matrix;
+  if (matrix.matrix == NULL)
+    return matrix;
 
   for (size_t i = 0; i < matrix.rows; i++) {
     for (size_t j = 0; j < matrix.cols; j++) {

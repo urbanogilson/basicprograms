@@ -8,14 +8,14 @@ big-endian (BE) or little-endian (LE)
 #include <stdio.h>
 
 int main(void) {
-  uint16_t number = 1;  // 0x0001
+  uint16_t number = 1; // 0x0001
 
   uint8_t *cptr = (uint8_t *)&number;
 
-  if (*cptr == 1)  // 0x01
+  if (*cptr == 1) // 0x01
   {
     printf("little-endian (LE)\n");
-  } else if (*cptr == 0)  // 0x00
+  } else if (*cptr == 0) // 0x00
   {
     printf("big-endian (BE)\n");
   }

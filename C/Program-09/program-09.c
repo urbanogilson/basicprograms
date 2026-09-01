@@ -29,10 +29,10 @@ typedef struct {
 } Arena;
 
 #undef DEFINE_ARENA
-#define DEFINE_ARENA(type)       \
-  struct {                       \
-    uint32_t size;               \
-    uint8_t arena[sizeof(type)]; \
+#define DEFINE_ARENA(type)                                                     \
+  struct {                                                                     \
+    uint32_t size;                                                             \
+    uint8_t arena[sizeof(type)];                                               \
   }
 
 void init_arena_raw(void *const arena, const void *const data,

@@ -20,8 +20,8 @@ static int do_getattr(const char *path, struct stat *st) {
 
   if (strcmp(path, "/") == 0 || is_dir(path) == 1) {
     st->st_mode = S_IFDIR | 0755;
-    st->st_nlink = 2;  // Why "two" hardlinks instead of "one"? The answer is
-                       // here: http://unix.stackexchange.com/a/101536
+    st->st_nlink = 2; // Why "two" hardlinks instead of "one"? The answer is
+                      // here: http://unix.stackexchange.com/a/101536
   } else if (is_file(path) == 1) {
     st->st_mode = S_IFREG | 0644;
     st->st_nlink = 1;
@@ -61,7 +61,8 @@ static int do_read(const char *path, char *buffer, size_t size, off_t offset,
 
   struct fs_node *file = get_fs_file(++path);
 
-  if (file == NULL) return -1;
+  if (file == NULL)
+    return -1;
 
   char *content = file->item.data.file.contents;
 

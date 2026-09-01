@@ -17,7 +17,8 @@ int *get_heap_array(unsigned n) {
     return NULL;         /* if so, return NULL */
 
   unsigned i;
-  for (i = 0; i < n; i++) heap_nums[i] = i + 1; /* initialize the array */
+  for (i = 0; i < n; i++)
+    heap_nums[i] = i + 1; /* initialize the array */
 
   /* stack storage for variables heap_nums and i released
    automatically when get_num_array returns */
@@ -31,7 +32,8 @@ int main() {
   if (NULL == heap_nums) /* malloc failed */
     fprintf(stderr, "%s\n", "malloc(...) failed...");
   else {
-    for (i = 0; i < n; i++) printf("%i\n", heap_nums[i]);
+    for (i = 0; i < n; i++)
+      printf("%i\n", heap_nums[i]);
     free(heap_nums); /* free the heap storage */
   }
 

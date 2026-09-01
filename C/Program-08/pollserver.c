@@ -12,7 +12,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define PORT "9034"  // Port we're listening on
+#define PORT "9034" // Port we're listening on
 
 #include "network.h"
 
@@ -40,9 +40,9 @@ int main(void) {
 
   // Add the listener to set
   pfds[0].fd = listener;
-  pfds[0].events = POLLIN;  // Report ready to read on incoming connection
+  pfds[0].events = POLLIN; // Report ready to read on incoming connection
 
-  fd_count = 1;  // For the listener
+  fd_count = 1; // For the listener
 
   while (1) {
     int poll_count = poll(pfds, fd_count, -1);
@@ -55,7 +55,7 @@ int main(void) {
     // Run through the existing connections looking for data to read
     for (int i = 0; i < fd_count; i++) {
       // Check if someone's ready to read
-      if (pfds[i].revents & POLLIN) {  // We got one!!
+      if (pfds[i].revents & POLLIN) { // We got one!!
 
         if (pfds[i].fd == listener) {
           // If listener is ready to read, handle new connection
@@ -68,13 +68,12 @@ int main(void) {
           } else {
             add_to_pfds(&pfds, newfd, &fd_count, &fd_size);
 
-            printf(
-                "pollserver: new connection from %s on "
-                "socket %d\n",
-                inet_ntop(remoteaddr.ss_family,
-                          get_in_addr((struct sockaddr *)&remoteaddr), remoteIP,
-                          INET6_ADDRSTRLEN),
-                newfd);
+            printf("pollserver: new connection from %s on "
+                   "socket %d\n",
+                   inet_ntop(remoteaddr.ss_family,
+                             get_in_addr((struct sockaddr *)&remoteaddr),
+                             remoteIP, INET6_ADDRSTRLEN),
+                   newfd);
           }
         } else {
           // If not the listener, we're just a regular client
@@ -91,10 +90,9 @@ int main(void) {
               perror("recv");
             }
 
-            close(pfds[i].fd);  // Bye!
+            close(pfds[i].fd); // Bye!
 
             del_from_pfds(pfds, i, &fd_count);
-
           } else {
             // We got some good data from a client
 
@@ -110,9 +108,9 @@ int main(void) {
               }
             }
           }
-        }  // END handle data from client
-      }    // END got ready-to-read from poll()
-    }      // END looping through file descriptors
+        } // END handle data from client
+      } // END got ready-to-read from poll()
+    } // END looping through file descriptors
   }
 
   free(pfds);
@@ -122,8 +120,8 @@ int main(void) {
 
 // Return a listening socket
 int get_listener_socket(void) {
-  int listener;  // Listening socket descriptor
-  int yes = 1;   // For setsockopt() SO_REUSEADDR, below
+  int listener; // Listening socket descriptor
+  int yes = 1;  // For setsockopt() SO_REUSEADDR, below
   int rv;
 
   struct addrinfo hints, *ai, *p;
@@ -160,7 +158,7 @@ int get_listener_socket(void) {
     return -1;
   }
 
-  freeaddrinfo(ai);  // All done with this
+  freeaddrinfo(ai); // All done with this
 
   // Listen
   if (listen(listener, 10) == -1) {
@@ -175,13 +173,13 @@ void add_to_pfds(struct pollfd *pfds[], int newfd, int *fd_count,
                  int *fd_size) {
   // If we don't have room, add more space in the pfds array
   if (*fd_count == *fd_size) {
-    *fd_size *= 2;  // Double it
+    *fd_size *= 2; // Double it
 
     *pfds = realloc(*pfds, sizeof(**pfds) * (*fd_size));
   }
 
   (*pfds)[*fd_count].fd = newfd;
-  (*pfds)[*fd_count].events = POLLIN;  // Check ready-to-read
+  (*pfds)[*fd_count].events = POLLIN; // Check ready-to-read
 
   (*fd_count)++;
 }

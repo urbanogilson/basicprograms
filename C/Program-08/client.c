@@ -11,7 +11,7 @@
 
 #include "network.h"
 
-#define MAXDATASIZE 100  // max number of bytes we can get at once
+#define MAXDATASIZE 100 // max number of bytes we can get at once
 
 struct args {
   char *hostname;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
             sizeof s);
   printf("client: connecting to %s\n", s);
 
-  freeaddrinfo(servinfo);  // all done with this structure
+  freeaddrinfo(servinfo); // all done with this structure
 
   if ((numbytes = recv(sockfd, buf, MAXDATASIZE - 1, 0)) == -1) {
     perror("recv");

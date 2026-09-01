@@ -4,10 +4,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct node
-{
-    int data;
-    struct node *next;
+typedef struct node {
+  int data;
+  struct node *next;
 } node;
 
 node *list_create_node(int data);

@@ -40,8 +40,8 @@ int main(int argc, char const *argv[]) {
     exit(1);
   }
 
-  their_addr.sin_family = AF_INET;          // host byte order
-  their_addr.sin_port = htons(SERVERPORT);  // short, network byte order
+  their_addr.sin_family = AF_INET;         // host byte order
+  their_addr.sin_port = htons(SERVERPORT); // short, network byte order
   their_addr.sin_addr = *((struct in_addr *)he->h_addr);
   memset(their_addr.sin_zero, '\0', sizeof their_addr.sin_zero);
 

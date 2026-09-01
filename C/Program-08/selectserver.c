@@ -8,31 +8,31 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define PORT "9034"  // Port we're listening on
+#define PORT "9034" // Port we're listening on
 
 #include "network.h"
 
 int main(void) {
-  fd_set master;    // master file descriptor list
-  fd_set read_fds;  // temp file descriptor list for select()
-  int fdmax;        // maximum file descriptor number
+  fd_set master;   // master file descriptor list
+  fd_set read_fds; // temp file descriptor list for select()
+  int fdmax;       // maximum file descriptor number
 
-  int listener;                        // listening socket descriptor
-  int newfd;                           // newly accept()ed socket descriptor
-  struct sockaddr_storage remoteaddr;  // client address
+  int listener;                       // listening socket descriptor
+  int newfd;                          // newly accept()ed socket descriptor
+  struct sockaddr_storage remoteaddr; // client address
   socklen_t addrlen;
 
-  char buf[256];  // buffer for client data
+  char buf[256]; // buffer for client data
   int nbytes;
 
   char remoteIP[INET6_ADDRSTRLEN];
 
-  int yes = 1;  // for setsockopt() SO_REUSEADDR, below
+  int yes = 1; // for setsockopt() SO_REUSEADDR, below
   int i, j, rv;
 
   struct addrinfo hints, *ai, *p;
 
-  FD_ZERO(&master);  // clear the master and temp sets
+  FD_ZERO(&master); // clear the master and temp sets
   FD_ZERO(&read_fds);
 
   // get us a socket and bind it
@@ -69,7 +69,7 @@ int main(void) {
     exit(2);
   }
 
-  freeaddrinfo(ai);  // all done with this
+  freeaddrinfo(ai); // all done with this
 
   // listen
   if (listen(listener, 10) == -1) {
@@ -81,10 +81,10 @@ int main(void) {
   FD_SET(listener, &master);
 
   // keep track of the biggest file descriptor
-  fdmax = listener;  // so far, it's this one
+  fdmax = listener; // so far, it's this one
 
   while (1) {
-    read_fds = master;  // copy it
+    read_fds = master; // copy it
     if (select(fdmax + 1, &read_fds, NULL, NULL, NULL) == -1) {
       perror("select");
       exit(4);
@@ -92,7 +92,7 @@ int main(void) {
 
     // run through the existing connections looking for data to read
     for (i = 0; i <= fdmax; i++) {
-      if (FD_ISSET(i, &read_fds)) {  // we got one!!
+      if (FD_ISSET(i, &read_fds)) { // we got one!!
         if (i == listener) {
           // handle new connections
           addrlen = sizeof remoteaddr;
@@ -101,17 +101,16 @@ int main(void) {
           if (newfd == -1) {
             perror("accept");
           } else {
-            FD_SET(newfd, &master);  // add to master set
-            if (newfd > fdmax) {     // keep track of the max
+            FD_SET(newfd, &master); // add to master set
+            if (newfd > fdmax) {    // keep track of the max
               fdmax = newfd;
             }
-            printf(
-                "selectserver: new connection from %s on "
-                "socket %d\n",
-                inet_ntop(remoteaddr.ss_family,
-                          get_in_addr((struct sockaddr *)&remoteaddr), remoteIP,
-                          INET6_ADDRSTRLEN),
-                newfd);
+            printf("selectserver: new connection from %s on "
+                   "socket %d\n",
+                   inet_ntop(remoteaddr.ss_family,
+                             get_in_addr((struct sockaddr *)&remoteaddr),
+                             remoteIP, INET6_ADDRSTRLEN),
+                   newfd);
           }
         } else {
           // handle data from a client
@@ -123,8 +122,8 @@ int main(void) {
             } else {
               perror("recv");
             }
-            close(i);            // bye!
-            FD_CLR(i, &master);  // remove from master set
+            close(i);           // bye!
+            FD_CLR(i, &master); // remove from master set
           } else {
             // we got some data from a client
             for (j = 0; j <= fdmax; j++) {
@@ -139,9 +138,9 @@ int main(void) {
               }
             }
           }
-        }  // END handle data from client
-      }    // END got new incoming connection
-    }      // END looping through file descriptors
+        } // END handle data from client
+      } // END got new incoming connection
+    } // END looping through file descriptors
   }
 
   return 0;

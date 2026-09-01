@@ -24,10 +24,11 @@ int main(void) {
 
   int array[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
   for (size_t i = 0; i < 9; i++) {
-    fprintf(stdout, "%d ", array[i]);  // Array notation
+    fprintf(stdout, "%d ", array[i]); // Array notation
     // fprintf(stdout, "%d\n", *(array + i));  // Pointer notation
-    // fprintf(stdout, "%d\n", *(i + array));  // Pointer notation (Also valid)
-    // fprintf(stdout, "%d\n", i[array]);      // Array notation (Also valid)
+    // fprintf(stdout, "%d\n", *(i + array));  // Pointer notation (Also
+    // valid) fprintf(stdout, "%d\n", i[array]);      // Array notation (Also
+    // valid)
   }
   fprintf(stdout, "\n\n");
 

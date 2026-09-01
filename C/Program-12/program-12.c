@@ -116,7 +116,7 @@ void free_time_machine(TimeMachine *time_machine) {
     current = current->next;
     free(temp);
   }
-  time_machine->head = NULL;  // Reset head pointer
+  time_machine->head = NULL; // Reset head pointer
 }
 
 int main(void) {

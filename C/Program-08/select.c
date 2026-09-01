@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define STDIN 0  // file descriptor for standard input
+#define STDIN 0 // file descriptor for standard input
 
 int main() {
   struct timeval tv;
