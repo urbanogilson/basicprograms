@@ -7,10 +7,13 @@ namespace tictactoe {
 
 class Game {
   public:
-    [[nodiscard]] bool makeMove(std::size_t row, std::size_t col);
-    [[nodiscard]] Board& board() const;
-    [[nodiscard]] Mark currentPlayer() const;
-    [[nodiscard]] GameState state() const {return state_;};
+    [[nodiscard]] bool makeMove(Position position);
+    [[nodiscard]] const Board& board() const { return board_; }
+    [[nodiscard]] Mark currentPlayer() const { return currentPlayer_; };
+    [[nodiscard]] GameState state() const { return state_; };
+    [[nodiscard]] bool isInProgress() const { return state_ == GameState::InProgress; };
+    [[nodiscard]] Mark winner() const { return winner_; };
+    [[nodiscard]] bool hasWinner() const { return winner_ != Mark::Empty; };
 
   private:
     Board board_;

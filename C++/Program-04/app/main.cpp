@@ -1,9 +1,8 @@
-#include "tictactoe/example.h"
+#include "tictactoe/console.h"
 
 #include <iostream>
 
 int main() {
-    std::cout << tictactoe::add(2, 3) << '\n';
-
-    return 0;
+    tictactoe::Console console;
+    console.play();
 }

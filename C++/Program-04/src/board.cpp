@@ -1,11 +1,16 @@
 #include "tictactoe/board.h"
 
+#include <algorithm>
+#include <ranges>
+
 namespace tictactoe {
 
-bool Board::place(std::size_t row, std::size_t col, Mark mark) {
-    if (!isValidMove(row, col) || mark == Mark::Empty) {
+bool Board::place(Position position, Mark mark) {
+    if (!isValidMove(position) || mark == Mark::Empty) {
         return false;
     }
+
+    auto [row, col] = position;
 
     if (cells_[row][col] != Mark::Empty) {
         return false;
@@ -17,19 +22,12 @@ bool Board::place(std::size_t row, std::size_t col, Mark mark) {
 }
 
 bool Board::full() const {
-    for(const auto & col : cells_){
-        for(const auto & mark: col) {
-            if (mark == Mark::Empty) {
-                return false;
-            }
-        }
-    }
-
-    return true;
+    return std::ranges::none_of(cells_ | std::views::join,
+                                [](Mark mark) { return mark == Mark::Empty; });
 }
 
-Mark Board::at(std::size_t row, std::size_t col) const {
-    return cells_[row][col];
+Mark Board::at(Position position) const {
+    return cells_[position.row][position.col];
 }
 
 } // namespace tictactoe

@@ -13,14 +13,15 @@ class Game : public ::testing::Test {
   protected:
     // Plays a move that is expected to be accepted, so sequences below stay readable.
     void play(std::size_t row, std::size_t col) {
-        EXPECT_TRUE(game.makeMove(row, col)) << "move (" << row << ", " << col << ") was rejected";
+        EXPECT_TRUE(game.makeMove({row, col}))
+            << "move (" << row << ", " << col << ") was rejected";
     }
 
     tictactoe::Game game;
 };
 
 TEST_F(Game, BasicMove) {
-    EXPECT_TRUE(game.makeMove(0, 0));
+    EXPECT_TRUE(game.makeMove({0, 0}));
     EXPECT_EQ(game.state(), GameState::InProgress);
 }
 
@@ -30,15 +31,15 @@ TEST_F(Game, StartsInProgress) {
 
 TEST_F(Game, OccupiedCellIsRejected) {
     play(0, 0);
-    EXPECT_FALSE(game.makeMove(0, 0));
+    EXPECT_FALSE(game.makeMove({0, 0}));
     EXPECT_EQ(game.state(), GameState::InProgress);
 }
 
 TEST_F(Game, OutOfRangeMoveIsRejected) {
     constexpr std::size_t Huge = std::numeric_limits<std::size_t>::max();
-    EXPECT_FALSE(game.makeMove(3, 0));
-    EXPECT_FALSE(game.makeMove(0, 3));
-    EXPECT_FALSE(game.makeMove(Huge, Huge));
+    EXPECT_FALSE(game.makeMove({3, 0}));
+    EXPECT_FALSE(game.makeMove({0, 3}));
+    EXPECT_FALSE(game.makeMove({Huge, Huge}));
     EXPECT_EQ(game.state(), GameState::InProgress);
 }
 
@@ -120,7 +121,7 @@ TEST_F(Game, MovesAfterAWinAreRejected) {
     play(0, 2); // X wins
     ASSERT_EQ(game.state(), GameState::Won);
 
-    EXPECT_FALSE(game.makeMove(2, 2));
+    EXPECT_FALSE(game.makeMove({2, 2}));
     EXPECT_EQ(game.state(), GameState::Won);
 }
 
@@ -136,7 +137,7 @@ TEST_F(Game, MovesAfterADrawAreRejected) {
     play(2, 2);
     ASSERT_EQ(game.state(), GameState::Draw);
 
-    EXPECT_FALSE(game.makeMove(0, 0));
+    EXPECT_FALSE(game.makeMove({0, 0}));
     EXPECT_EQ(game.state(), GameState::Draw);
 }
 
@@ -144,8 +145,8 @@ TEST_F(Game, MovesAfterADrawAreRejected) {
 // the marks would land on the wrong squares and X would never get the row.
 TEST_F(Game, RejectedMoveDoesNotConsumeATurn) {
     play(0, 0);                          // X
-    EXPECT_FALSE(game.makeMove(0, 0));   // O tries an occupied cell
-    EXPECT_FALSE(game.makeMove(9, 9));   // O tries an out-of-range cell
+    EXPECT_FALSE(game.makeMove({0, 0})); // O tries an occupied cell
+    EXPECT_FALSE(game.makeMove({9, 9})); // O tries an out-of-range cell
     play(1, 0);                          // O
     play(0, 1);                          // X
     play(1, 1);                          // O

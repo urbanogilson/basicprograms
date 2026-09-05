@@ -11,28 +11,24 @@ class Board {
   public:
     static constexpr std::size_t Size = 3;
 
-    [[nodiscard]] bool place(std::size_t row, std::size_t col, Mark mark);
+    [[nodiscard]] bool place(Position position, Mark mark);
 
-    [[nodiscard]] Mark at(std::size_t row, std::size_t col) const;
+    [[nodiscard]] Mark at(Position position) const;
 
     [[nodiscard]] bool full() const;
 
   private:
-    [[nodiscard]] bool isValidMove(std::size_t row, std::size_t col) const {
-      if (row >= Size || col >= Size) {
-        return false;
-      }
+    [[nodiscard]] bool isValidMove(Position position) const {
+        if (position.row >= Size || position.col >= Size) {
+            return false;
+        }
 
-      return true;
+        return true;
     }
 
-    std::array<std::array<Mark, Size>, Size> cells_ {
-        {
-            {Mark::Empty, Mark::Empty, Mark::Empty},
-            {Mark::Empty, Mark::Empty, Mark::Empty},
-            {Mark::Empty, Mark::Empty, Mark::Empty}
-        }
-    };
+    std::array<std::array<Mark, Size>, Size> cells_{{{Mark::Empty, Mark::Empty, Mark::Empty},
+                                                     {Mark::Empty, Mark::Empty, Mark::Empty},
+                                                     {Mark::Empty, Mark::Empty, Mark::Empty}}};
 };
 
 } // namespace tictactoe

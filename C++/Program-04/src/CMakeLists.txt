@@ -2,6 +2,7 @@ add_library(tictactoe
     example.cpp
     board.cpp
     game.cpp
+    console.cpp
 )
 add_library(tictactoe::tictactoe ALIAS tictactoe)
 

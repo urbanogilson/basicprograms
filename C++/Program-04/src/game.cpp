@@ -1,13 +1,16 @@
 #include "tictactoe/game.h"
 
+#include <algorithm>
+#include <ranges>
+
 namespace tictactoe {
 
-bool Game::makeMove(std::size_t row, std::size_t col) {
+bool Game::makeMove(Position position) {
     if (state_ != GameState::InProgress) {
         return false;
     }
 
-    if (!board_.place(row, col, currentPlayer_)) {
+    if (!board_.place(position, currentPlayer_)) {
         return false;
     }
 
@@ -20,32 +23,26 @@ bool Game::makeMove(std::size_t row, std::size_t col) {
     return true;
 }
 
+using Line = std::array<Position, Board::Size>;
+
+consteval std::array<Line, 2 * Board::Size + 2> makeWinLines() {
+    return {{
+        {{{0, 0}, {0, 1}, {0, 2}}}, // Row 0
+        {{{1, 0}, {1, 1}, {1, 2}}}, // Row 1
+        {{{2, 0}, {2, 1}, {2, 2}}}, // Row 2
+        {{{0, 0}, {1, 0}, {2, 0}}}, // Col 0
+        {{{0, 1}, {1, 1}, {2, 1}}}, // Col 1
+        {{{0, 2}, {1, 2}, {2, 2}}}, // Col 2
+        {{{0, 0}, {1, 1}, {2, 2}}}, // Diagonal 1
+        {{{0, 2}, {1, 1}, {2, 0}}}  // Diagonal 2
+    }};
+}
+inline constexpr auto WinLines = makeWinLines();
+
 bool Game::hasWon(Mark mark) const {
-    // Rows
-    for (std::size_t row = 0; row < Board::Size; ++row) {
-        if (board_.at(row, 0) == mark && board_.at(row, 1) == mark && board_.at(row, 2) == mark) {
-            return true;
-        }
-    }
-
-    // Columns
-    for (std::size_t col = 0; col < Board::Size; ++col) {
-        if (board_.at(0, col) == mark && board_.at(1, col) == mark && board_.at(2, col) == mark) {
-            return true;
-        }
-    }
-
-    // Diagonal
-    if (board_.at(0, 0) == mark && board_.at(1, 1) == mark && board_.at(2, 2) == mark) {
-        return true;
-    }
-
-    // Other diagonal
-    if (board_.at(0, 2) == mark && board_.at(1, 1) == mark && board_.at(2, 0) == mark) {
-        return true;
-    }
-
-    return false;
+    return std::ranges::any_of(WinLines, [&](const Line& line) {
+        return std::ranges::all_of(line, [&](Position pos) { return board_.at(pos) == mark; });
+    });
 }
 
 void Game::updateState() {
